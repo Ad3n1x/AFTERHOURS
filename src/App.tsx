@@ -38,6 +38,15 @@ type Evidence = {
   title: string;
   body: string;
 };
+
+type Investigator = { id: string; name: string; role: string; initials: string; tone: string; specialty: string; line: string };
+const investigators: Investigator[] = [
+  { id: 'nia', name: 'Nia Okafor', role: 'Lead investigator', initials: 'NO', tone: 'nia', specialty: 'Reads the room. Separates what people say from what the record proves.', line: 'Start with what we can verify. The story comes after the evidence.' },
+  { id: 'marcus', name: 'Marcus Reed', role: 'Field officer', initials: 'MR', tone: 'marcus', specialty: 'Checks locations, timelines, and whether a lead can be tested in person.', line: 'Give me a location and a time. I’ll tell you what we can actually check.' },
+  { id: 'amara', name: 'Dr. Amara Bello', role: 'Forensic analyst', initials: 'AB', tone: 'amara', specialty: 'Finds inconsistencies in records, images, logs, and physical details.', line: 'One clue is a clue. Two independent sources can become a pattern.' },
+  { id: 'tobi', name: 'Tobi Akinwale', role: 'Comms & dispatch', initials: 'TA', tone: 'tobi', specialty: 'Keeps the case timeline organised and flags gaps between reports.', line: 'I’ve got the timeline open. Tell me which two events don’t fit.' },
+];
+
 type CaseFile = {
   id: string;
   title: string;
@@ -798,6 +807,7 @@ function readProgress() {
 function App() {
   const [page, setPage] = useState('home');
   const [activeCase, setActiveCase] = useState<CaseFile>(cases[0]);
+  const [selectedInvestigator, setSelectedInvestigator] = useState<string | null>(null);
   const [progress, setProgress] = useState(readProgress);
   const [answer, setAnswer] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -1525,6 +1535,30 @@ function App() {
       </div>
       <div className="play-layout">
         <section className="evidence-column">
+          <section className="case-team" aria-label="Investigation team">
+            <div className="section-heading compact-heading">
+              <div><div className="eyebrow">FIELD UNIT / AVAILABLE ON THIS CASE</div><h2>Your investigation team</h2></div>
+              <span className="small-mono">4 PERSONNEL</span>
+            </div>
+            <div className="team-roster">
+              {investigators.map(person => (
+                <button key={person.id} className={'team-member ' + (selectedInvestigator === person.id ? 'team-member-active' : '')} onClick={() => setSelectedInvestigator(selectedInvestigator === person.id ? null : person.id)} aria-expanded={selectedInvestigator === person.id}>
+                  <span className={'character-avatar avatar-' + person.tone}><span>{person.initials}</span><i /></span>
+                  <span className="team-member-copy"><strong>{person.name}</strong><small>{person.role}</small></span>
+                  <ChevronRight size={14} className="team-member-arrow" />
+                </button>
+              ))}
+            </div>
+            {selectedInvestigator && (() => {
+              const person = investigators.find(member => member.id === selectedInvestigator);
+              if (!person) return null;
+              return <div className="character-briefing">
+                <div className={'character-avatar character-avatar-large avatar-' + person.tone}><span>{person.initials}</span><i /></div>
+                <div className="character-briefing-copy"><div className="eyebrow">PERSONNEL FILE / {person.role.toUpperCase()}</div><h3>{person.name}</h3><p>{person.specialty}</p><blockquote>“{person.line}”</blockquote></div>
+                <button className="connection-remove character-close" onClick={() => setSelectedInvestigator(null)} aria-label="Close personnel file"><X size={14} /></button>
+              </div>;
+            })()}
+          </section>
           <div className="section-heading compact-heading">
             <div>
               <div className="eyebrow">
