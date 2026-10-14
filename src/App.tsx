@@ -738,6 +738,18 @@ const navItems = [
   { label: 'Campus', key: 'campus', icon: Users },
   { label: 'Archives', key: 'archive', icon: FileSearch },
 ];
+type InterviewExchange = { question: string; response: string; lead: string };
+function interviewForCase(c: CaseFile): InterviewExchange[] {
+  const first = c.evidence[0];
+  const second = c.evidence[1] || first;
+  const last = c.evidence[c.evidence.length - 1] || first;
+  return [
+    { question: 'What did you personally observe?', response: 'I can only speak to what was recorded: “' + first.title + '” says ' + first.body + ' Treat that as one account, not the whole story.', lead: 'Re-check ' + first.id + ' and compare it with another source.' },
+    { question: 'Which record could independently confirm that?', response: 'Start with “' + second.title + '”: ' + second.body + ' If the sources were created independently, agreement matters more than repetition.', lead: 'Compare ' + first.id + ' with ' + second.id + ' on the evidence board.' },
+    { question: 'What remains uncertain?', response: '“' + last.title + '” records: ' + last.body + ' That still does not automatically establish motive or identify who was responsible. We need a testable next step.', lead: 'Write down what additional record or observation would close this gap.' },
+  ];
+}
+
 const episodes = [
   {
     no: 'EP. 01',
@@ -838,6 +850,8 @@ function App() {
   const [showNote, setShowNote] = useState(false);
   const [selectedEvidenceForLink, setSelectedEvidenceForLink] = useState<string | null>(null);
   const [linkType, setLinkType] = useState('supports');
+  const [interviewAnswers, setInterviewAnswers] = useState<Record<string, number[]>>({});
+  const [activeInterviewQuestion, setActiveInterviewQuestion] = useState<number | null>(null);
 
   useEffect(() => {
     try {
@@ -924,6 +938,7 @@ function App() {
     setShowNote(false);
     setSelectedEvidenceForLink(null);
     setLinkType('supports');
+    setActiveInterviewQuestion(null);
     setDraftText(progress.notes[c.id] || '');
     go('play');
     const url = new URL(window.location.href);
@@ -1629,6 +1644,26 @@ function App() {
               </button>
             </article>
           ))}
+          <section className="interview-room" aria-label="Witness interview room">
+            <div className="section-heading compact-heading">
+              <div><div className="eyebrow">INTERVIEW ROOM / FOLLOW THE LEAD</div><h2>Ask before you accuse</h2></div>
+              <span className="small-mono">{(interviewAnswers[activeCase.id] || []).length}/3 QUESTIONS</span>
+            </div>
+            <p className="interview-intro">Choose a question to open a new line of inquiry. Replies point back to the case record; they are leads to test, not automatic proof.</p>
+            <div className="interview-questions">
+              {interviewForCase(activeCase).map((exchange, index) => {
+                const asked = (interviewAnswers[activeCase.id] || []).includes(index);
+                return <button key={exchange.question} className={'interview-question ' + (activeInterviewQuestion === index ? 'interview-question-active' : '')} onClick={() => { setActiveInterviewQuestion(activeInterviewQuestion === index ? null : index); if (!asked) setInterviewAnswers(current => ({ ...current, [activeCase.id]: [...(current[activeCase.id] || []), index] })); }} aria-expanded={activeInterviewQuestion === index}>
+                  <span className="interview-question-number">0{index + 1}</span><span>{exchange.question}</span><ChevronRight size={15} />
+                </button>;
+              })}
+            </div>
+            {activeInterviewQuestion !== null && <div className="interview-response" aria-live="polite">
+              <div className="eyebrow">FIELD RESPONSE / LEAD GENERATED</div>
+              <p>{interviewForCase(activeCase)[activeInterviewQuestion]?.response}</p>
+              <div className="interview-lead"><Target size={15} /><span><strong>Next lead:</strong> {interviewForCase(activeCase)[activeInterviewQuestion]?.lead}</span></div>
+            </div>}
+          </section>
           <section className="investigation-board" aria-label="Investigation board">
             <div className="section-heading compact-heading">
               <div><div className="eyebrow">WORKING BOARD / YOUR DEDUCTIONS</div><h2>Connect the evidence</h2></div>
