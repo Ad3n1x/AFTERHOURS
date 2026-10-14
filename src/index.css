@@ -3179,3 +3179,76 @@ button:disabled {
 @keyframes briefing-enter { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 560px) { .case-team { padding: 12px; } .team-roster { grid-template-columns: 1fr; } .team-member { padding: 9px; } .character-briefing { gap: 10px; padding: 12px; } .character-avatar-large { flex-basis: 52px; width: 52px; height: 65px; } }
 @media (prefers-reduced-motion: reduce) { .character-briefing { animation: none; } .team-member { transition: none; } }
+
+
+/* Custom player portraits and cinematic crime-scene profile backdrops */
+.record-hero > * { position: relative; z-index: 1; }
+.record-hero.scene-rainy-street::before,
+.record-hero.scene-warehouse::before,
+.record-hero.scene-night-lab::before,
+.record-hero.scene-archive::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+}
+.record-hero.scene-rainy-street::before {
+  background: linear-gradient(90deg, #10161be8 0%, #10161bc9 48%, #10161b5c 100%), repeating-linear-gradient(105deg, transparent 0 34px, #b4d4e00b 35px 37px), radial-gradient(ellipse at 85% 10%, #7397a54c, transparent 38%), linear-gradient(160deg, #1d3039, #10151d 70%);
+}
+.record-hero.scene-warehouse::before {
+  background: linear-gradient(90deg, #10161bf2 0%, #10161bd9 52%, #10161b61 100%), repeating-linear-gradient(90deg, transparent 0 52px, #c8b28c12 53px 55px), radial-gradient(ellipse at 83% 20%, #d5a35b55, transparent 30%), linear-gradient(160deg, #30271c, #111720 72%);
+}
+.record-hero.scene-night-lab::before {
+  background: linear-gradient(90deg, #10161bf2 0%, #10161bdc 54%, #10161b66 100%), radial-gradient(ellipse at 82% 25%, #6bc9b54c, transparent 31%), repeating-linear-gradient(0deg, transparent 0 31px, #92bfb711 32px 33px), linear-gradient(145deg, #172d2d, #101720 75%);
+}
+.record-hero.scene-archive::before {
+  background: linear-gradient(90deg, #10161bf2 0%, #10161bdc 54%, #10161b66 100%), repeating-linear-gradient(90deg, transparent 0 44px, #c7f36b0b 45px 47px), radial-gradient(ellipse at 83% 22%, #c7f36b2e, transparent 34%), linear-gradient(145deg, #263026, #101720 76%);
+}
+.player-portrait {
+  position: relative; isolation: isolate; overflow: hidden; flex: 0 0 82px;
+  width: 82px; height: 94px; display: block; border: 1px solid #637568;
+  background: linear-gradient(145deg, #33474b, #12191e 70%); color: #e9eee6;
+  box-shadow: 0 8px 24px #0006;
+}
+.player-portrait .portrait-backdrop { position: absolute; inset: 0; z-index: -3; background: radial-gradient(ellipse at 50% 28%, #d7c1a655, transparent 38%), linear-gradient(150deg, #52625c, #131a20 68%); }
+.player-portrait .portrait-head { position: absolute; width: 33px; height: 39px; top: 13px; left: 24px; border-radius: 45% 45% 42% 42%; background: linear-gradient(110deg, #d2a889, #8e624e); box-shadow: inset -7px -2px 0 #39261f35; }
+.player-portrait .portrait-head::before { content: ''; position: absolute; left: -2px; top: -5px; width: 37px; height: 17px; border-radius: 60% 60% 24% 24%; background: #1c1b1a; box-shadow: 0 7px 0 -4px #1c1b1a; }
+.player-portrait .portrait-head::after { content: ''; position: absolute; left: 8px; top: 20px; width: 4px; height: 2px; background: #30221e; box-shadow: 13px 0 #30221e, 6px 9px 0 1px #6c3c35; }
+.player-portrait .portrait-shoulders { position: absolute; left: 9px; bottom: -11px; width: 64px; height: 47px; border-radius: 48% 48% 0 0; background: linear-gradient(110deg, #273c3b, #10161d 70%); border-top: 2px solid #7b9386; }
+.player-portrait .portrait-initials { position: absolute; right: 5px; bottom: 5px; z-index: 2; font: 8px var(--mono); color: #d6f4a1; letter-spacing: .08em; background: #0c1114d9; padding: 3px; }
+.portrait-field .portrait-head { background: linear-gradient(110deg, #9d6e53, #613f32); }
+.portrait-field .portrait-head::before { background: #121719; height: 21px; border-radius: 45% 45% 16% 16%; }
+.portrait-field .portrait-shoulders { background: linear-gradient(110deg, #475449, #17211e); border-color: #c0b47d; }
+.portrait-analyst .portrait-backdrop { background: radial-gradient(ellipse at 50% 30%, #83c9b844, transparent 40%), linear-gradient(150deg, #234744, #121a20 70%); }
+.portrait-analyst .portrait-head { background: linear-gradient(110deg, #e0b99b, #a9775e); }
+.portrait-analyst .portrait-head::before { background: #27201e; height: 13px; }
+.portrait-analyst .portrait-shoulders { background: linear-gradient(110deg, #263b40, #111920); border-color: #72b9a7; }
+.portrait-dispatch .portrait-backdrop { background: radial-gradient(ellipse at 50% 25%, #b9a2d34a, transparent 40%), linear-gradient(150deg, #343049, #121820 70%); }
+.portrait-dispatch .portrait-head { background: linear-gradient(110deg, #bd8c6e, #7d4f3e); }
+.portrait-dispatch .portrait-head::before { background: #161719; height: 18px; }
+.portrait-dispatch .portrait-shoulders { background: linear-gradient(110deg, #363044, #111720); border-color: #a99bd0; }
+.avatar-customizer { margin-top: 14px; padding: 21px; border: 1px solid #303b42; background: linear-gradient(145deg, #121a21, #0f151b); }
+.avatar-customizer h2 { font: 500 24px var(--serif); margin: 8px 0; }
+.avatar-customizer > p { color: #929eaa; font-size: 11px; line-height: 1.7; margin: 0 0 17px; max-width: 600px; }
+.avatar-customizer-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.avatar-customizer-controls label { display: grid; gap: 7px; color: #83908d; font: 8px var(--mono); letter-spacing: .08em; }
+.avatar-customizer-controls select { width: 100%; min-width: 0; min-height: 42px; padding: 0 11px; border: 1px solid #35434a; color: #e9eee6; background: #151e25; font: 11px 'DM Sans', Arial, sans-serif; letter-spacing: 0; }
+.avatar-scene-preview { min-height: 124px; margin-top: 13px; padding: 17px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 4px; overflow: hidden; position: relative; isolation: isolate; border: 1px solid #344149; background: linear-gradient(90deg, #10161beF, #10161b80), repeating-linear-gradient(105deg, transparent 0 38px, #b4d4e00d 39px 41px), radial-gradient(ellipse at 85% 15%, #7799a84f, transparent 34%), #18232a; }
+.scene-light { position: absolute; z-index: -1; width: 78px; height: 78px; border-radius: 50%; filter: blur(15px); background: #d6bd7650; }
+.scene-light-one { right: 18%; top: -28px; }
+.scene-light-two { right: 35%; bottom: -54px; background: #83b7c53d; }
+.scene-silhouette { position: absolute; z-index: -1; bottom: 0; width: 32px; height: 72px; background: linear-gradient(#13191d, #080c10); opacity: .8; }
+.scene-silhouette-one { right: 13%; }
+.scene-silhouette-two { right: 25%; height: 49px; width: 22px; opacity: .6; }
+.scene-caption { font: 8px var(--mono); letter-spacing: .1em; color: #b7c9b3; }
+.avatar-scene-preview strong { font: 500 23px var(--serif); color: #f1eee6; }
+.avatar-scene-preview small { font: 8px var(--mono); letter-spacing: .08em; color: #89969c; }
+.scene-warehouse .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 50px, #d8b36c12 51px 53px), radial-gradient(ellipse at 83% 15%, #d6a35b50, transparent 30%), #2b251d; }
+.scene-night-lab .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), radial-gradient(ellipse at 82% 15%, #71cbb34f, transparent 32%), repeating-linear-gradient(0deg, transparent 0 28px, #92bfb711 29px 30px), #172d2d; }
+.scene-archive .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 44px, #c7f36b0c 45px 47px), radial-gradient(ellipse at 82% 15%, #c7f36b29, transparent 30%), #263026; }
+@media (max-width: 560px) {
+  .record-hero { align-items: flex-start; flex-wrap: wrap; padding: 16px; gap: 13px; }
+  .player-portrait { flex-basis: 70px; width: 70px; height: 82px; }
+  .player-portrait .portrait-head { left: 19px; width: 31px; }
+  .player-portrait .portrait-shoulders { left: 4px; width: 60px; }
+  .record-stamp { margin-left: 0; }
+  .avatar-customizer { padding: 15px; }
+  .avatar-customizer-controls { grid-template-columns: 1fr; }
+}
