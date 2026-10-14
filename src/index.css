@@ -3297,3 +3297,144 @@ button:disabled {
 @media (prefers-reduced-motion: reduce) {
   .avatar-choice { transition: none; }
 }
+
+
+/* AFTERHOURS visual refresh: vivid case-board accents with the noir mood intact */
+:root {
+  --bg: #0b1018;
+  --panel: #121c29;
+  --panel-2: #192536;
+  --line: #2b3b4d;
+  --muted: #a6b3c3;
+  --dim: #77879a;
+  --lime: #d2ff72;
+  --amber: #ffc46b;
+  --coral: #ff887b;
+  --electric: #73d9ff;
+  --violet: #b8a1ff;
+}
+html { background: var(--bg); }
+body {
+  background:
+    radial-gradient(ellipse at 12% 4%, #b8a1ff0c, transparent 32%),
+    radial-gradient(ellipse at 88% 8%, #73d9ff12, transparent 34%),
+    radial-gradient(ellipse at 55% 100%, #d2ff7208, transparent 45%),
+    var(--bg);
+}
+.sidebar {
+  background: linear-gradient(180deg, #111a27 0%, #0d131d 75%);
+  border-right-color: #2b3b4d;
+  box-shadow: 12px 0 42px #0002;
+}
+.brand-mark {
+  color: var(--lime);
+  border-color: #72894f;
+  background: linear-gradient(145deg, #34432b, #18251f);
+  box-shadow: 0 0 25px #d2ff7210;
+}
+.brand-word > span { color: var(--lime); }
+button, a, input, textarea, select { transition: border-color .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
+button:hover:not(:disabled) { border-color: #627a8d; }
+.sidebar button:hover:not(:disabled) { background-color: #1a2938; }
+.sidebar button[aria-current="page"],
+.sidebar button.active,
+.sidebar .nav-active {
+  background: linear-gradient(100deg, #d2ff7217, #73d9ff0b);
+  border-color: #8ba96555;
+}
+input, textarea, select {
+  accent-color: var(--lime);
+}
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select {
+  border-color: #34465a;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus, select:focus {
+  border-color: #83d8f5;
+  box-shadow: 0 0 0 3px #73d9ff16;
+}
+::selection { background: var(--lime); color: #11180b; }
+.section-heading, .page-heading, .desk-header, .section-title-row {
+  border-color: #304154;
+}
+h1, h2, h3 { text-wrap: balance; }
+h1 { letter-spacing: -.035em; }
+.eyebrow, .side-label, .small-mono { color: #a4c4a0; }
+a { color: #8cddff; text-underline-offset: 3px; }
+a:hover { color: #d2ff72; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline-color: var(--electric);
+}
+.avatar-customizer {
+  border-color: #35485b;
+  background:
+    radial-gradient(ellipse at 100% 0%, #73d9ff10, transparent 40%),
+    linear-gradient(145deg, #172333, #101923);
+  box-shadow: 0 14px 38px #0002;
+}
+.avatar-choice {
+  border-color: #35485b;
+  background: linear-gradient(120deg, #1b2938, #141e2b);
+}
+.avatar-choice:hover {
+  border-color: #83d8f5;
+  box-shadow: 0 6px 20px #73d9ff0c;
+  transform: translateY(-1px);
+}
+.avatar-choice-active {
+  border-color: var(--lime);
+  background: linear-gradient(120deg, #2b3b2b, #1b2b34);
+  box-shadow: inset 0 0 0 1px #d2ff7220, 0 0 22px #d2ff7209;
+}
+.avatar-choice-active .avatar-choice-check {
+  color: #10170c;
+  background: var(--lime);
+  border-color: var(--lime);
+}
+.scene-choice-warehouse { background: linear-gradient(115deg, #49331d, #17202a 85%); }
+.scene-choice-night-lab { background: linear-gradient(115deg, #1d4944, #17202a 85%); }
+.scene-choice-archive { background: linear-gradient(115deg, #354529, #17202a 85%); }
+.avatar-scene-preview {
+  border-color: #3b5266;
+  box-shadow: inset 0 0 40px #73d9ff08;
+}
+.avatar-scene-preview.scene-preview-warehouse {
+  background: linear-gradient(90deg, #111821f2, #11182172), repeating-linear-gradient(90deg, transparent 0 50px, #ffc46b15 51px 53px), radial-gradient(ellipse at 83% 15%, #ffc46b66, transparent 30%), #33271b;
+}
+.avatar-scene-preview.scene-preview-night-lab {
+  background: linear-gradient(90deg, #101a20f2, #101a2072), radial-gradient(ellipse at 82% 15%, #73d9ff68, transparent 32%), repeating-linear-gradient(0deg, transparent 0 28px, #73d9ff13 29px 30px), #153432;
+}
+.avatar-scene-preview.scene-preview-archive {
+  background: linear-gradient(90deg, #151d18f2, #151d1872), repeating-linear-gradient(90deg, transparent 0 44px, #d2ff7212 45px 47px), radial-gradient(ellipse at 82% 15%, #d2ff7240, transparent 30%), #263626;
+}
+.avatar-scene-preview::after { border-color: #d2ff7255; color: var(--lime); }
+.record-hero {
+  border-color: #35485b;
+  box-shadow: 0 14px 36px #0002;
+}
+.record-hero.scene-rainy-street::before {
+  background: linear-gradient(90deg, #101821f2 0%, #101821c4 48%, #10182145 100%), repeating-linear-gradient(105deg, transparent 0 34px, #73d9ff12 35px 37px), radial-gradient(ellipse at 85% 10%, #73d9ff5c, transparent 38%), linear-gradient(160deg, #1d3947, #10151d 70%);
+}
+.record-hero.scene-warehouse::before {
+  background: linear-gradient(90deg, #101821f2 0%, #101821d4 52%, #10182155 100%), repeating-linear-gradient(90deg, transparent 0 52px, #ffc46b16 53px 55px), radial-gradient(ellipse at 83% 20%, #ffc46b66, transparent 30%), linear-gradient(160deg, #3c2d1c, #111720 72%);
+}
+.record-hero.scene-night-lab::before {
+  background: linear-gradient(90deg, #101821f2 0%, #101821d8 54%, #1018215c 100%), radial-gradient(ellipse at 82% 25%, #73d9ff58, transparent 31%), repeating-linear-gradient(0deg, transparent 0 31px, #73d9ff13 32px 33px), linear-gradient(145deg, #173b3a, #101720 75%);
+}
+.record-hero.scene-archive::before {
+  background: linear-gradient(90deg, #101821f2 0%, #101821d8 54%, #1018215c 100%), repeating-linear-gradient(90deg, transparent 0 44px, #d2ff7212 45px 47px), radial-gradient(ellipse at 83% 22%, #d2ff723b, transparent 34%), linear-gradient(145deg, #293b28, #101720 76%);
+}
+.avatar-choice-check, .choice-mini-portrait, .scene-choice-icon { transition: transform .18s ease, background-color .18s ease; }
+.avatar-choice-active .choice-mini-portrait { transform: scale(1.04); }
+@media (prefers-reduced-motion: no-preference) {
+  .avatar-scene-preview .scene-light { animation: scene-glow 5s ease-in-out infinite alternate; }
+  .avatar-scene-preview .scene-light-two { animation-delay: -2.5s; }
+}
+@keyframes scene-glow {
+  from { opacity: .55; transform: scale(.92); }
+  to { opacity: 1; transform: scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
