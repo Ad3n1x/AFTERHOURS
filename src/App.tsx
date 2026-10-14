@@ -2386,7 +2386,7 @@ function App() {
             </select>
           </label>
         </div>
-        <div className="avatar-scene-preview" role="img" aria-label={'Profile portrait scene: ' + (progress.avatarScene || 'rainy street').replace('-', ' ')}>
+        <div className={'avatar-scene-preview scene-preview-' + (progress.avatarScene || 'rainy-street')} role="img" aria-label={'Profile portrait scene: ' + (progress.avatarScene || 'rainy street').replace('-', ' ')}>
           <div className="scene-light scene-light-one" />
           <div className="scene-light scene-light-two" />
           <div className="scene-silhouette scene-silhouette-one" />
