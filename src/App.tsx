@@ -595,7 +595,7 @@ const cases: CaseFile[] = [
       { id: 'E02', type: 'DATED NOTE', time: '16 MAY', title: 'Investigator notebook', body: 'The notebook records the lead on 16 May, but the interview page has no date.' },
       { id: 'E03', type: 'ARCHIVE INDEX', title: 'Digitisation batch', body: 'The interview page was scanned in a later batch. The scan date does not establish the interview date.' },
       { id: 'E04', type: 'RECORDS OFFICE NOTE', title: 'Available primary source', body: 'The original interview log may be requested, but it has not yet been checked against the summary.' },
-      { id: 'E05', type: 'CONTEXT NOTE', title: 'Fictional scenario', body: 'This is an original fictional archival case. For real public-record examples, see the U.S. National Archives’ D. B. Cooper case-file feature; the people and events in this scenario are invented.' },
+      { id: 'E05', type: 'CONTEXT NOTE', title: 'Fictional scenario', body: 'Fictional case. Recordkeeping context: U.S. National Archives research guidance covers locating records and understanding their provenance. This municipal inquiry and its records are invented.' },
     ],
     options: [
       'Request and compare the original interview log before changing the chronology',
