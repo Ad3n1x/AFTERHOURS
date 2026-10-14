@@ -497,7 +497,226 @@ const cases: CaseFile[] = [
     hint: 'Choose the lead that can be tested, not the person who merely seems suspicious.',
     explanation:
       'E01 establishes a power loss, E02 gives two possible mechanisms, and E03 places an unidentified person near one of them. Checking the wall panel’s state or maintenance record is the most testable next step. E05 rules out the claim that only one person had access. The evidence is not enough to accuse anyone.',
+  },,
+  {
+    id: 'SC-061',
+    title: 'The Yaba Dispatch',
+    subtitle: 'Three packs were ordered. The handover trail tells a smaller story.',
+    mode: 'STREETCRAFT',
+    difficulty: 'Easy',
+    minutes: 4,
+    points: 150,
+    tags: ['Lagos', 'Logistics', 'Evidence trail'],
+    intro:
+      'A fictional student-run dispatch desk in Yaba is reconciling an order marked DELIVERED. Your task is to identify what the records prove—not to guess who is at fault.',
+    evidence: [
+      {
+        id: 'E01',
+        type: 'ORDER SLIP',
+        time: '14:05',
+        title: 'Order 31B',
+        body: 'The customer requested three labelled supply packs. The slip is marked PACKED, not handed over.',
+      },
+      {
+        id: 'E02',
+        type: 'HANDOVER LOG',
+        time: '14:18',
+        title: 'Counter release',
+        body: 'Two packs were signed out to the rider. The third is marked “awaiting label” in the count column.',
+      },
+      {
+        id: 'E03',
+        type: 'DELIVERY EXPORT',
+        time: '14:34',
+        title: 'Status change',
+        body: 'The order status changed to DELIVERED. The recipient-signature field is blank.',
+      },
+      {
+        id: 'E04',
+        type: 'COUNTER TALLY',
+        time: '14:41',
+        title: 'End-of-shift count',
+        body: 'One labelled pack remains at the dispatch counter. The tally does not identify which order it belongs to.',
+      },
+    ],
+    options: [
+      'The rider definitely kept the third pack',
+      'The records do not establish a complete handover for all three packs',
+      'The customer falsely claimed non-delivery',
+      'The delivery platform is definitely fraudulent',
+    ],
+    answer: 1,
+    hint:
+      'Separate an order being packed, a status changing, and a person signing for an item. Those are different events.',
+    explanation:
+      'E01 shows an order was packed, not delivered. E02 records only two physical releases, and E03 has no recipient signature. E04 suggests a pack remains but does not link it to this order. The strongest conclusion is that the handover trail is incomplete—not that any specific person caused it.',
   },
+  {
+    id: 'CF-062',
+    title: 'The Market Stall Ledger',
+    subtitle: 'The closing count is one item short of the recorded arithmetic.',
+    mode: 'CASEFILE',
+    difficulty: 'Medium',
+    minutes: 5,
+    points: 190,
+    tags: ['Nigeria', 'Inventory', 'Arithmetic'],
+    intro:
+      'A fictional market cooperative is checking its daily stock sheet. Reconcile the records before deciding whether the difference means anything more.',
+    evidence: [
+      {
+        id: 'E01',
+        type: 'OPENING COUNT',
+        time: '09:00',
+        title: 'Morning inventory',
+        body: 'The stall begins the day with 24 sealed packs.',
+      },
+      {
+        id: 'E02',
+        type: 'DELIVERY NOTE',
+        time: '09:40',
+        title: 'Restock received',
+        body: 'A signed delivery note records 16 additional packs received.',
+      },
+      {
+        id: 'E03',
+        type: 'SALES LEDGER',
+        time: '18:00',
+        title: 'Daily sales',
+        body: 'The ledger records 29 packs sold. No other stock movement is listed before the closing count.',
+      },
+      {
+        id: 'E04',
+        type: 'CLOSING SHEET',
+        time: '18:15',
+        title: 'Count at close',
+        body: 'The recorded physical count is 10 packs.',
+      },
+      {
+        id: 'E05',
+        type: 'RETURN SLIP',
+        time: '18:22',
+        title: 'Returned item',
+        body: 'One unopened pack is returned to the shelf seven minutes after the closing count.',
+      },
+    ],
+    options: [
+      'The figures reconcile because the returned pack was added later',
+      'The delivery note must be incorrect',
+      'The closing count is one below the amount implied by the earlier records',
+      'The difference proves someone stole a pack',
+    ],
+    answer: 2,
+    hint:
+      'Calculate opening stock plus received stock minus recorded sales. Keep the 18:22 return separate from the 18:15 count.',
+    explanation:
+      '24 + 16 − 29 = 11 packs should remain at 18:15 if the listed movements are complete. The sheet records 10. The return happened after that count, so it cannot explain the one-pack difference. This establishes a mismatch, not its cause.',
+  },
+  {
+    id: 'GL-061',
+    title: 'The Duplicate Wire',
+    subtitle: 'Two accounting rows do not automatically mean two payments.',
+    mode: 'GLITCH HUNT',
+    difficulty: 'Medium',
+    minutes: 5,
+    points: 190,
+    tags: ['United States', 'Digital records', 'Cross-check'],
+    intro:
+      'A fictional community arts office sees what looks like a duplicate vendor payment. Compare the export with the independent settlement record before drawing a conclusion.',
+    evidence: [
+      {
+        id: 'E01',
+        type: 'APPROVED INVOICE',
+        time: '10:04',
+        title: 'Invoice 804',
+        body: 'The office approved one vendor invoice for $860.',
+      },
+      {
+        id: 'E02',
+        type: 'SETTLEMENT LOG',
+        time: '10:21',
+        title: 'Payment reference 4FA',
+        body: 'The payment service lists reference 4FA as completed once for $860.',
+      },
+      {
+        id: 'E03',
+        type: 'ACCOUNTING EXPORT',
+        time: '10:24',
+        title: 'Two matching rows',
+        body: 'The export contains two rows with the same payment reference, amount, and completion timestamp.',
+      },
+      {
+        id: 'E04',
+        type: 'BANK STATEMENT',
+        time: 'Next business day',
+        title: 'Posted debit',
+        body: 'The statement shows one posted debit of $860 matching reference 4FA.',
+      },
+    ],
+    options: [
+      'The vendor was definitely paid twice',
+      'The duplicate export row proves deliberate wrongdoing',
+      'The export appears to duplicate a record; the evidence shows one posted payment',
+      'The invoice was never approved',
+    ],
+    answer: 2,
+    hint:
+      'A repeated row is a record-level observation. Check whether an independent source shows a second completed transaction.',
+    explanation:
+      'E03 shows a duplicated row in one export, while E02 and E04 independently show one completed settlement and one posted debit. The evidence supports investigating the export duplication; it does not establish a second payment or deliberate wrongdoing.',
+  },
+  {
+    id: 'CC-061',
+    title: 'The Archive Room',
+    subtitle: 'The door log and archive log differ because their clocks use different time zones.',
+    mode: 'CAMPUS CHRONICLES',
+    difficulty: 'Medium',
+    minutes: 5,
+    points: 190,
+    tags: ['United States', 'Campus', 'Timeline'],
+    intro:
+      'A fictional campus archive is reviewing an access question. The first glance suggests a four-hour discrepancy. Normalize the timestamps before deciding whether the accounts conflict.',
+    evidence: [
+      {
+        id: 'E01',
+        type: 'ARCHIVE SYSTEM',
+        time: '17:30 UTC',
+        title: 'Document opened',
+        body: 'The archive server records a document opening at 17:30 UTC.',
+      },
+      {
+        id: 'E02',
+        type: 'DOOR READER',
+        time: '13:31 EDT',
+        title: 'Room access',
+        body: 'The door reader records an entry at 13:31 Eastern Daylight Time (UTC−4).',
+      },
+      {
+        id: 'E03',
+        type: 'ATTENDANCE SHEET',
+        time: '13:35 EDT',
+        title: 'Research session',
+        body: 'A signed attendance sheet places the scheduled session at 13:35 EDT.',
+      },
+      {
+        id: 'E04',
+        type: 'SYSTEM NOTE',
+        time: '—',
+        title: 'Timestamp convention',
+        body: 'The archive server stores timestamps in UTC. The physical door reader displays local Eastern Daylight Time.',
+      },
+    ],
+    options: [
+      'The archive was opened four hours before the door entry',
+      'The archive timestamp converts to 13:30 EDT, consistent with the 13:31 door entry',
+      'The attendance sheet proves who opened the document',
+      'The clocks are too different to compare',
+    ],
+    answer: 1,
+    hint:
+      'EDT is four hours behind UTC. Convert the server time to local time before comparing the sequence.',
+    explanation:
+      '17:30 UTC is 13:30 EDT. That is one minute before the 13:31 door entry, not four hours before it. The sequence is close enough to be compatible, but these records alone do not identify who opened the document.',
+  }
 ];
 
 const navItems = [
@@ -552,27 +771,28 @@ const prompts = [
 ];
 
 function readProgress() {
+  const defaults = {
+    solved: {},
+    notes: {},
+    bookmarks: [],
+    reviewedEvidence: [],
+    streak: 1,
+    nickname: 'Investigator',
+    drafts: {},
+  };
   try {
     const saved = localStorage.getItem('afterhours-progress-v1');
-    return saved
-      ? JSON.parse(saved)
-      : {
-          solved: {},
-          notes: {},
-          bookmarks: [],
-          streak: 1,
-          nickname: 'Investigator',
-          drafts: {},
-        };
-  } catch {
+    if (!saved) return defaults;
+    const parsed = JSON.parse(saved);
     return {
-      solved: {},
-      notes: {},
-      bookmarks: [],
-      streak: 1,
-      nickname: 'Investigator',
-      drafts: {},
+      ...defaults,
+      ...parsed,
+      reviewedEvidence: Array.isArray(parsed.reviewedEvidence)
+        ? parsed.reviewedEvidence
+        : [],
     };
+  } catch {
+    return defaults;
   }
 }
 function App() {
@@ -588,8 +808,23 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [draftText, setDraftText] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [fontLarge, setFontLarge] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const [fontLarge, setFontLarge] = useState(() => {
+    try {
+      return localStorage.getItem('afterhours-font-large') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [reduceMotion, setReduceMotion] = useState(() => {
+    try {
+      const saved = localStorage.getItem('afterhours-reduce-motion');
+      return saved === null
+        ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        : saved === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [showNote, setShowNote] = useState(false);
 
   useEffect(() => {
@@ -599,6 +834,14 @@ function App() {
       /* Session still works without storage. */
     }
   }, [progress]);
+  useEffect(() => {
+    try {
+      localStorage.setItem('afterhours-font-large', String(fontLarge));
+      localStorage.setItem('afterhours-reduce-motion', String(reduceMotion));
+    } catch {
+      /* Preferences still work for this session without storage. */
+    }
+  }, [fontLarge, reduceMotion]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const challenge = params.get('case');
@@ -631,7 +874,18 @@ function App() {
         const q = search.toLowerCase();
         const matchesSearch =
           !q ||
-          [c.title, c.subtitle, c.id, ...c.tags]
+          [
+            c.title,
+            c.subtitle,
+            c.id,
+            c.mode,
+            c.difficulty,
+            c.intro,
+            c.hint,
+            c.explanation,
+            ...c.tags,
+            ...c.evidence.flatMap(e => [e.id, e.type, e.time || '', e.title, e.body]),
+          ]
             .join(' ')
             .toLowerCase()
             .includes(q);
@@ -733,6 +987,17 @@ function App() {
         : 'Saved to your evidence locker.'
     );
   }
+  function toggleEvidenceReview(key: string) {
+    setProgress((p: any) => {
+      const reviewed = Array.isArray(p.reviewedEvidence) ? p.reviewedEvidence : [];
+      return {
+        ...p,
+        reviewedEvidence: reviewed.includes(key)
+          ? reviewed.filter((item: string) => item !== key)
+          : [...reviewed, key],
+      };
+    });
+  }
   function saveNote() {
     setProgress((p: any) => ({
       ...p,
@@ -750,6 +1015,7 @@ function App() {
         solved: {},
         notes: {},
         bookmarks: [],
+        reviewedEvidence: [],
         streak: 1,
         nickname: 'Investigator',
         drafts: {},
@@ -1235,7 +1501,11 @@ function App() {
             <div>
               <div className="eyebrow">
                 EXHIBITS /{' '}
-                {activeCase.evidence.length.toString().padStart(2, '0')} ITEMS
+                {activeCase.evidence.length.toString().padStart(2, '0')} ITEMS ·{' '}
+                {(progress.reviewedEvidence || []).filter((key: string) =>
+                  key.startsWith(activeCase.id + ':')
+                ).length}
+                /{activeCase.evidence.length} REVIEWED
               </div>
               <h2>Evidence locker</h2>
             </div>
@@ -1263,6 +1533,21 @@ function App() {
                 </div>
                 <h3>{e.title}</h3>
                 <p>{e.body}</p>
+                <button
+                  className={
+                    'evidence-review ' +
+                    ((progress.reviewedEvidence || []).includes(activeCase.id + ':' + e.id)
+                      ? 'is-reviewed'
+                      : '')
+                  }
+                  onClick={() => toggleEvidenceReview(activeCase.id + ':' + e.id)}
+                  aria-pressed={(progress.reviewedEvidence || []).includes(activeCase.id + ':' + e.id)}
+                >
+                  <Check size={13} />
+                  {(progress.reviewedEvidence || []).includes(activeCase.id + ':' + e.id)
+                    ? 'Reviewed'
+                    : 'Mark reviewed'}
+                </button>
               </div>
               <button
                 className={
