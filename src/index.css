@@ -3252,3 +3252,48 @@ button:disabled {
   .avatar-customizer { padding: 15px; }
   .avatar-customizer-controls { grid-template-columns: 1fr; }
 }
+
+
+/* Friendlier, visual avatar customization controls */
+.avatar-customizer { border-radius: 3px; }
+.avatar-customizer > p { font-size: 12px; max-width: 660px; }
+.avatar-choice-group { margin-top: 19px; }
+.avatar-choice-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+.avatar-choice-heading > span { color: #b7c6bb; font: 9px var(--mono); letter-spacing: .09em; }
+.avatar-choice-heading small { color: #77858b; font-size: 10px; }
+.avatar-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.avatar-choice { width: 100%; min-width: 0; min-height: 64px; display: flex; align-items: center; gap: 11px; padding: 10px; text-align: left; border: 1px solid #303b42; border-radius: 3px; background: #141c22; color: #e9eee6; cursor: pointer; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.avatar-choice:hover { border-color: #73846d; background: #1a252b; }
+.avatar-choice:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+.avatar-choice:active { transform: translateY(1px); }
+.avatar-choice-active { border-color: #9dbb75; background: linear-gradient(115deg, #253126, #182129); box-shadow: inset 0 0 0 1px #c7f36b15; }
+.choice-mini-portrait { position: relative; flex: 0 0 35px; width: 35px; height: 39px; overflow: hidden; display: block; border: 1px solid #5b7062; background: linear-gradient(140deg, #354d4b, #111920); }
+.choice-mini-portrait::before { content: ''; position: absolute; width: 17px; height: 21px; top: 5px; left: 9px; border-radius: 45% 45% 40% 40%; background: linear-gradient(110deg, #d2a889, #8e624e); box-shadow: inset -4px -2px 0 #39261f35; }
+.choice-mini-portrait::after { content: ''; position: absolute; width: 23px; height: 23px; left: 5px; bottom: -10px; border-radius: 50% 50% 0 0; background: #152321; border-top: 2px solid #81978a; }
+.choice-mini-portrait i { position: absolute; z-index: 1; left: 7px; top: 3px; width: 21px; height: 9px; border-radius: 50% 50% 20% 20%; background: #191919; }
+.portrait-field.choice-mini-portrait { background: linear-gradient(140deg, #4b5340, #111920); }
+.portrait-analyst.choice-mini-portrait { background: linear-gradient(140deg, #234744, #111920); }
+.portrait-analyst.choice-mini-portrait::before { background: linear-gradient(110deg, #e0b99b, #a9775e); }
+.portrait-dispatch.choice-mini-portrait { background: linear-gradient(140deg, #343049, #111920); }
+.portrait-dispatch.choice-mini-portrait::before { background: linear-gradient(110deg, #bd8c6e, #7d4f3e); }
+.avatar-choice-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 4px; }
+.avatar-choice-copy strong { font-size: 11px; line-height: 1.35; font-weight: 600; }
+.avatar-choice-copy small { color: #89979d; font-size: 10px; line-height: 1.35; }
+.avatar-choice-check { flex: 0 0 19px; width: 19px; height: 19px; display: grid; place-items: center; border: 1px solid #47544f; border-radius: 50%; color: #11170d; font-size: 11px; }
+.avatar-choice-active .avatar-choice-check { border-color: var(--lime); background: var(--lime); }
+.scene-choice { min-height: 71px; position: relative; overflow: hidden; background: linear-gradient(115deg, #18252b, #121920); }
+.scene-choice-warehouse { background: linear-gradient(115deg, #3a2b1c, #141a20 85%); }
+.scene-choice-night-lab { background: linear-gradient(115deg, #1b3935, #141a20 85%); }
+.scene-choice-archive { background: linear-gradient(115deg, #283426, #141a20 85%); }
+.scene-choice-icon { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid #ffffff17; background: #080d124a; border-radius: 3px; font-size: 17px; }
+.avatar-scene-preview { border-radius: 3px; min-height: 145px; margin-top: 15px; }
+.avatar-scene-preview::after { content: 'LIVE PREVIEW'; position: absolute; right: 10px; top: 10px; border: 1px solid #b6d4a44a; background: #0c1215bd; padding: 5px 7px; color: #c7f36b; font: 8px var(--mono); letter-spacing: .1em; }
+@media (max-width: 600px) {
+  .avatar-choice-grid { grid-template-columns: 1fr; }
+  .avatar-choice { min-height: 60px; }
+  .avatar-choice-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .avatar-customizer h2 { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-choice { transition: none; }
+}
