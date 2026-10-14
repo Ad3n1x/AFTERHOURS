@@ -2326,9 +2326,12 @@ function App() {
         'INVESTIGATOR PROFILE / LOCAL',
         'A record of what you have solved, what you saved, and how your reasoning is improving.'
       )}
-      <div className="record-hero">
-        <div className="record-avatar">
-          <Fingerprint size={34} />
+      <div className={'record-hero scene-' + (progress.avatarScene || 'rainy-street')}>
+        <div className={'record-avatar player-portrait portrait-' + (progress.avatarStyle || 'detective')} aria-label={(progress.avatarStyle || 'detective') + ' player portrait'}>
+          <span className="portrait-backdrop" />
+          <span className="portrait-head" />
+          <span className="portrait-shoulders" />
+          <span className="portrait-initials">{(progress.nickname || 'I').trim().split(/\\s+/).slice(0, 2).map((part: string) => part[0]).join('').toUpperCase()}</span>
         </div>
         <div className="record-name">
           <span className="eyebrow">FIELD ID / GUEST</span>
@@ -2359,6 +2362,40 @@ function App() {
           REQUIRED
         </div>
       </div>
+      <section className="avatar-customizer">
+        <div className="eyebrow">PERSONALISE / YOUR FIELD ID</div>
+        <h2>Build your investigator</h2>
+        <p>Choose a portrait style and the scene behind your profile. Your choices stay saved on this device.</p>
+        <div className="avatar-customizer-controls">
+          <label>
+            <span>PORTRAIT STYLE</span>
+            <select value={progress.avatarStyle || 'detective'} onChange={event => setProgress((p: any) => ({ ...p, avatarStyle: event.target.value }))}>
+              <option value="detective">Lead detective</option>
+              <option value="field">Field officer</option>
+              <option value="analyst">Forensic analyst</option>
+              <option value="dispatch">Dispatch specialist</option>
+            </select>
+          </label>
+          <label>
+            <span>SCENE BACKDROP</span>
+            <select value={progress.avatarScene || 'rainy-street'} onChange={event => setProgress((p: any) => ({ ...p, avatarScene: event.target.value }))}>
+              <option value="rainy-street">Rainy city street</option>
+              <option value="warehouse">Warehouse investigation</option>
+              <option value="night-lab">Forensic lab at night</option>
+              <option value="archive">Evidence archive</option>
+            </select>
+          </label>
+        </div>
+        <div className="avatar-scene-preview" role="img" aria-label={'Profile portrait scene: ' + (progress.avatarScene || 'rainy street').replace('-', ' ')}>
+          <div className="scene-light scene-light-one" />
+          <div className="scene-light scene-light-two" />
+          <div className="scene-silhouette scene-silhouette-one" />
+          <div className="scene-silhouette scene-silhouette-two" />
+          <span className="scene-caption">FIELD CAMERA / { (progress.avatarScene || 'RAINY STREET').replace('-', ' ').toUpperCase() }</span>
+          <strong>{progress.nickname || 'Investigator'}</strong>
+          <small>PERSONNEL PORTRAIT · LOCAL PROFILE</small>
+        </div>
+      </section>
       <div className="record-stats">
         <div>
           <span>CASES SOLVED</span>
