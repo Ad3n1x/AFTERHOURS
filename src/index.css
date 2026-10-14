@@ -3142,3 +3142,40 @@ button:disabled {
   .evidence-link-trigger { transition: none !important; }
 }
 
+
+
+/* Cinematic case-team roster */
+.case-team { margin-bottom: 27px; padding: 17px; border: 1px solid #2c3741; background: radial-gradient(ellipse at 0% 0%, #1b2829 0%, #111820 62%); }
+.case-team .section-heading { margin-bottom: 13px; }
+.team-roster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.team-member { min-width: 0; display: flex; align-items: center; gap: 10px; padding: 10px; text-align: left; color: #dfe3df; background: #121a22; border: 1px solid #2d3843; transition: border-color .18s, background .18s, transform .18s; }
+.team-member:hover, .team-member-active { border-color: #71854e; background: #19241f; }
+.team-member:hover { transform: translateY(-1px); }
+.character-avatar { position: relative; isolation: isolate; flex: 0 0 43px; width: 43px; height: 48px; overflow: hidden; display: grid; place-items: center; border: 1px solid #59675b; background: linear-gradient(145deg, #425b50, #1c2a30 58%, #121820); color: #e8f3d5; font: 500 14px var(--serif); letter-spacing: .03em; }
+.character-avatar:before { content: ''; position: absolute; z-index: -1; width: 31px; height: 31px; left: 6px; top: 4px; border-radius: 50%; background: #b7a18a; opacity: .26; box-shadow: 0 0 0 7px #d5e4d00b; }
+.character-avatar:after { content: ''; position: absolute; z-index: -1; width: 38px; height: 25px; left: 2px; bottom: -10px; border-radius: 45% 45% 0 0; background: #10161c; border: 1px solid #b7c7b520; }
+.character-avatar span { margin-top: 5px; text-shadow: 0 2px 8px #000; }
+.character-avatar i { position: absolute; bottom: 4px; right: 4px; width: 5px; height: 5px; background: var(--lime); border-radius: 50%; box-shadow: 0 0 0 3px #c7f36b17; }
+.avatar-marcus { background: linear-gradient(145deg, #64503f, #28333a 62%, #121820); color: #f0dfcf; border-color: #766452; }
+.avatar-marcus:before { background: #805c43; }
+.avatar-amara { background: linear-gradient(145deg, #384f69, #26333b 62%, #121820); color: #e0eaff; border-color: #52677c; }
+.avatar-amara:before { background: #b98f7b; }
+.avatar-tobi { background: linear-gradient(145deg, #59485f, #293039 62%, #121820); color: #f0dff3; border-color: #6d5a72; }
+.avatar-tobi:before { background: #8b5e4b; }
+.team-member-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; }
+.team-member-copy strong { font: 500 13px var(--serif); overflow-wrap: anywhere; }
+.team-member-copy small { color: #81908f; font-size: 8px; line-height: 1.4; }
+.team-member-arrow { flex: 0 0 auto; color: #718071; }
+.team-member-active .team-member-arrow, .team-member:hover .team-member-arrow { color: var(--lime); }
+.character-briefing { position: relative; display: flex; gap: 14px; align-items: flex-start; margin-top: 10px; padding: 15px; border: 1px solid #3d4b3b; background: linear-gradient(110deg, #18231f, #111820 72%); animation: briefing-enter .18s ease-out; }
+.character-avatar-large { flex-basis: 62px; width: 62px; height: 74px; }
+.character-avatar-large:before { width: 40px; height: 40px; left: 10px; top: 8px; }
+.character-avatar-large:after { width: 52px; height: 33px; left: 4px; }
+.character-briefing-copy { min-width: 0; padding-right: 15px; }
+.character-briefing-copy h3 { margin: 5px 0 6px; font: 500 19px var(--serif); color: #edf0e8; }
+.character-briefing-copy p { margin: 0; color: #a1adae; font-size: 10px; line-height: 1.65; }
+.character-briefing-copy blockquote { margin: 10px 0 0; padding-left: 10px; border-left: 2px solid var(--lime); color: #d4dfcc; font: italic 13px/1.6 var(--serif); }
+.character-close { position: absolute; top: 7px; right: 7px; }
+@keyframes briefing-enter { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 560px) { .case-team { padding: 12px; } .team-roster { grid-template-columns: 1fr; } .team-member { padding: 9px; } .character-briefing { gap: 10px; padding: 12px; } .character-avatar-large { flex-basis: 52px; width: 52px; height: 65px; } }
+@media (prefers-reduced-motion: reduce) { .character-briefing { animation: none; } .team-member { transition: none; } }
