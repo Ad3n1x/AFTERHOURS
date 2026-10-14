@@ -3240,9 +3240,9 @@ button:disabled {
 .scene-caption { font: 8px var(--mono); letter-spacing: .1em; color: #b7c9b3; }
 .avatar-scene-preview strong { font: 500 23px var(--serif); color: #f1eee6; }
 .avatar-scene-preview small { font: 8px var(--mono); letter-spacing: .08em; color: #89969c; }
-.scene-warehouse .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 50px, #d8b36c12 51px 53px), radial-gradient(ellipse at 83% 15%, #d6a35b50, transparent 30%), #2b251d; }
-.scene-night-lab .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), radial-gradient(ellipse at 82% 15%, #71cbb34f, transparent 32%), repeating-linear-gradient(0deg, transparent 0 28px, #92bfb711 29px 30px), #172d2d; }
-.scene-archive .avatar-scene-preview { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 44px, #c7f36b0c 45px 47px), radial-gradient(ellipse at 82% 15%, #c7f36b29, transparent 30%), #263026; }
+.avatar-scene-preview.scene-preview-warehouse { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 50px, #d8b36c12 51px 53px), radial-gradient(ellipse at 83% 15%, #d6a35b50, transparent 30%), #2b251d; }
+.avatar-scene-preview.scene-preview-night-lab { background: linear-gradient(90deg, #10161bf0, #10161b80), radial-gradient(ellipse at 82% 15%, #71cbb34f, transparent 32%), repeating-linear-gradient(0deg, transparent 0 28px, #92bfb711 29px 30px), #172d2d; }
+.avatar-scene-preview.scene-preview-archive { background: linear-gradient(90deg, #10161bf0, #10161b80), repeating-linear-gradient(90deg, transparent 0 44px, #c7f36b0c 45px 47px), radial-gradient(ellipse at 82% 15%, #c7f36b29, transparent 30%), #263026; }
 @media (max-width: 560px) {
   .record-hero { align-items: flex-start; flex-wrap: wrap; padding: 16px; gap: 13px; }
   .player-portrait { flex-basis: 70px; width: 70px; height: 82px; }
