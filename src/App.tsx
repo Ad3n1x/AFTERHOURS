@@ -497,7 +497,7 @@ const cases: CaseFile[] = [
     hint: 'Choose the lead that can be tested, not the person who merely seems suspicious.',
     explanation:
       'E01 establishes a power loss, E02 gives two possible mechanisms, and E03 places an unidentified person near one of them. Checking the wall panel’s state or maintenance record is the most testable next step. E05 rules out the claim that only one person had access. The evidence is not enough to accuse anyone.',
-  },,
+  },
   {
     id: 'SC-061',
     title: 'The Yaba Dispatch',
