@@ -826,6 +826,8 @@ function App() {
     }
   });
   const [showNote, setShowNote] = useState(false);
+  const [selectedEvidenceForLink, setSelectedEvidenceForLink] = useState<string | null>(null);
+  const [linkType, setLinkType] = useState('supports');
 
   useEffect(() => {
     try {
@@ -910,6 +912,8 @@ function App() {
     setSubmitted(false);
     setHintOpen(false);
     setShowNote(false);
+    setSelectedEvidenceForLink(null);
+    setLinkType('supports');
     setDraftText(progress.notes[c.id] || '');
     go('play');
     const url = new URL(window.location.href);
@@ -997,6 +1001,30 @@ function App() {
           : [...reviewed, key],
       };
     });
+  }
+  function selectEvidenceForLink(evidenceId: string) {
+    if (!selectedEvidenceForLink) {
+      setSelectedEvidenceForLink(evidenceId);
+      setToast('First exhibit selected. Choose another exhibit to connect it.');
+      return;
+    }
+    if (selectedEvidenceForLink === evidenceId) {
+      setSelectedEvidenceForLink(null);
+      setToast('Exhibit selection cleared.');
+      return;
+    }
+    const first = selectedEvidenceForLink;
+    const key = [first, evidenceId].sort().join('|');
+    setProgress((p: any) => {
+      const links = Array.isArray(p.evidenceLinks) ? p.evidenceLinks : [];
+      const exists = links.some((link: any) => link.caseId === activeCase.id && [link.from, link.to].sort().join('|') === key && link.relation === linkType);
+      return exists ? p : { ...p, evidenceLinks: [...links, { caseId: activeCase.id, from: first, to: evidenceId, relation: linkType }] };
+    });
+    setSelectedEvidenceForLink(null);
+    setToast('Connection added to your investigation board.');
+  }
+  function removeEvidenceLink(indexToRemove: number) {
+    setProgress((p: any) => ({ ...p, evidenceLinks: (Array.isArray(p.evidenceLinks) ? p.evidenceLinks : []).filter((_link: any, index: number) => index !== indexToRemove) }));
   }
   function saveNote() {
     setProgress((p: any) => ({
@@ -1561,8 +1589,34 @@ function App() {
               >
                 <Bookmark size={15} />
               </button>
+              <button className={'evidence-link-trigger ' + (selectedEvidenceForLink === e.id ? 'is-link-selected' : '')} onClick={() => selectEvidenceForLink(e.id)} aria-pressed={selectedEvidenceForLink === e.id}>
+                <Fingerprint size={14} />
+                {selectedEvidenceForLink === e.id ? 'SELECTED — choose another' : 'Connect clue'}
+              </button>
             </article>
           ))}
+          <section className="investigation-board" aria-label="Investigation board">
+            <div className="section-heading compact-heading">
+              <div><div className="eyebrow">WORKING BOARD / YOUR DEDUCTIONS</div><h2>Connect the evidence</h2></div>
+              <span className="small-mono">{(progress.evidenceLinks || []).filter((link: any) => link.caseId === activeCase.id).length} LINKS</span>
+            </div>
+            <p className="board-instructions">Pick one exhibit, then another. Record whether the relationship supports a lead, contradicts it, or helps establish a timeline. Your connections are saved on this device.</p>
+            <label className="board-relation-label" htmlFor="evidence-link-type">Relationship</label>
+            <select id="evidence-link-type" className="board-relation-select" value={linkType} onChange={e => setLinkType(e.target.value)}>
+              <option value="supports">Supports / reinforces</option><option value="contradicts">Contradicts / conflicts with</option><option value="timeline">Timeline / sequence</option><option value="context">Context / possible connection</option>
+            </select>
+            <div className="board-status" aria-live="polite">{selectedEvidenceForLink ? 'Selected ' + selectedEvidenceForLink + '. Choose a second exhibit to make a connection.' : 'No exhibit selected. Start by connecting two pieces of evidence.'}</div>
+            {(progress.evidenceLinks || []).filter((link: any) => link.caseId === activeCase.id).length ? (
+              <div className="evidence-connections">
+                {(progress.evidenceLinks || []).map((link: any, index: number) => {
+                  if (link.caseId !== activeCase.id) return null;
+                  const from = activeCase.evidence.find(e => e.id === link.from); const to = activeCase.evidence.find(e => e.id === link.to);
+                  if (!from || !to) return null;
+                  return <article className="evidence-connection" key={link.caseId + link.from + link.to + link.relation + index}><div className="connection-exhibits"><span>{from.id}</span><ArrowRight size={13} /><span>{to.id}</span></div><div className="connection-copy"><strong>{from.title}</strong><span>{link.relation}</span><strong>{to.title}</strong></div><button className="connection-remove" onClick={() => removeEvidenceLink(index)} aria-label="Remove connection"><X size={14} /></button></article>;
+                })}
+              </div>
+            ) : <div className="board-empty"><Fingerprint size={19} /><span>Your board is empty. Connect two exhibits to begin building your own theory.</span></div>}
+          </section>
           <div className="note-panel">
             <button
               className="note-panel-head"
