@@ -3559,3 +3559,22 @@ textarea { min-height: 100px; resize: vertical; }
     box-shadow: none;
   }
 }
+
+
+/* Investigation design: witness room and testable leads */
+.interview-room { margin: 24px 0; padding: clamp(16px, 2.5vw, 24px); border: 1px solid #34485c; border-radius: 8px; background: linear-gradient(145deg, #172636, #101923 72%); box-shadow: 0 14px 36px #0002; }
+.interview-intro { max-width: 68ch; color: #a9b8c7; font-size: 13px; line-height: 1.7; margin: 10px 0 18px; }
+.interview-questions { display: grid; gap: 9px; }
+.interview-question { display: grid; grid-template-columns: 34px minmax(0,1fr) 16px; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 12px 14px; text-align: left; color: #eaf2f7; background: #0e1824; border: 1px solid #34485c; border-radius: 5px; cursor: pointer; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.interview-question:hover, .interview-question-active { border-color: #73d9ff; background: #142638; }
+.interview-question:hover { transform: translateX(2px); }
+.interview-question-number { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #4c657a; border-radius: 4px; color: #d2ff72; font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.interview-question-active .interview-question-number { background: #d2ff72; color: #111a20; border-color: #d2ff72; }
+.interview-response { margin-top: 14px; padding: 17px; border-left: 3px solid #73d9ff; background: #0b1520; animation: interview-in .2s ease-out; }
+.interview-response p { color: #d6e1e9; line-height: 1.75; margin: 10px 0 14px; }
+.interview-lead { display: flex; gap: 9px; align-items: flex-start; padding-top: 12px; border-top: 1px solid #2a3d50; color: #b9c9d6; font-size: 12px; line-height: 1.6; }
+.interview-lead svg { color: #d2ff72; flex: 0 0 auto; margin-top: 2px; }
+.interview-lead strong { color: #d2ff72; }
+@keyframes interview-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 480px) { .interview-room { padding: 14px; } .interview-question { grid-template-columns: 30px minmax(0,1fr) 14px; gap: 8px; padding: 11px 9px; font-size: 12px; } .interview-response { padding: 13px; } }
+@media (prefers-reduced-motion: reduce) { .interview-response { animation: none; } }
