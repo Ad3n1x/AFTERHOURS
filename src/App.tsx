@@ -2366,25 +2366,39 @@ function App() {
         <div className="eyebrow">PERSONALISE / YOUR FIELD ID</div>
         <h2>Build your investigator</h2>
         <p>Choose a portrait style and the scene behind your profile. Your choices stay saved on this device.</p>
-        <div className="avatar-customizer-controls">
-          <label>
-            <span>PORTRAIT STYLE</span>
-            <select value={progress.avatarStyle || 'detective'} onChange={event => setProgress((p: any) => ({ ...p, avatarStyle: event.target.value }))}>
-              <option value="detective">Lead detective</option>
-              <option value="field">Field officer</option>
-              <option value="analyst">Forensic analyst</option>
-              <option value="dispatch">Dispatch specialist</option>
-            </select>
-          </label>
-          <label>
-            <span>SCENE BACKDROP</span>
-            <select value={progress.avatarScene || 'rainy-street'} onChange={event => setProgress((p: any) => ({ ...p, avatarScene: event.target.value }))}>
-              <option value="rainy-street">Rainy city street</option>
-              <option value="warehouse">Warehouse investigation</option>
-              <option value="night-lab">Forensic lab at night</option>
-              <option value="archive">Evidence archive</option>
-            </select>
-          </label>
+        <div className="avatar-choice-group">
+          <div className="avatar-choice-heading"><span>1. CHOOSE YOUR LOOK</span><small>Pick a character style</small></div>
+          <div className="avatar-choice-grid" role="group" aria-label="Choose your avatar style">
+            {[
+              { id: 'detective', title: 'Lead detective', note: 'Classic investigator' },
+              { id: 'field', title: 'Field officer', note: 'On-scene specialist' },
+              { id: 'analyst', title: 'Forensic analyst', note: 'Evidence expert' },
+              { id: 'dispatch', title: 'Dispatch specialist', note: 'Comms & coordination' },
+            ].map(option => (
+              <button type="button" key={option.id} className={'avatar-choice avatar-style-choice ' + ((progress.avatarStyle || 'detective') === option.id ? 'avatar-choice-active' : '')} onClick={() => setProgress((p: any) => ({ ...p, avatarStyle: option.id }))} aria-pressed={(progress.avatarStyle || 'detective') === option.id}>
+                <span className={'choice-mini-portrait portrait-' + option.id}><i /></span>
+                <span className="avatar-choice-copy"><strong>{option.title}</strong><small>{option.note}</small></span>
+                <span className="avatar-choice-check" aria-hidden="true">{(progress.avatarStyle || 'detective') === option.id ? '✓' : ''}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="avatar-choice-group">
+          <div className="avatar-choice-heading"><span>2. CHOOSE YOUR SCENE</span><small>Change the atmosphere</small></div>
+          <div className="avatar-choice-grid scene-choice-grid" role="group" aria-label="Choose your crime scene backdrop">
+            {[
+              { id: 'rainy-street', title: 'Rainy city', note: 'Street investigation', icon: '🌧️' },
+              { id: 'warehouse', title: 'Warehouse', note: 'After-hours search', icon: '🏚️' },
+              { id: 'night-lab', title: 'Forensic lab', note: 'Evidence review', icon: '🧪' },
+              { id: 'archive', title: 'Evidence archive', note: 'Cold case records', icon: '🗂️' },
+            ].map(option => (
+              <button type="button" key={option.id} className={'avatar-choice scene-choice scene-choice-' + option.id + ' ' + ((progress.avatarScene || 'rainy-street') === option.id ? 'avatar-choice-active' : '')} onClick={() => setProgress((p: any) => ({ ...p, avatarScene: option.id }))} aria-pressed={(progress.avatarScene || 'rainy-street') === option.id}>
+                <span className="scene-choice-icon" aria-hidden="true">{option.icon}</span>
+                <span className="avatar-choice-copy"><strong>{option.title}</strong><small>{option.note}</small></span>
+                <span className="avatar-choice-check" aria-hidden="true">{(progress.avatarScene || 'rainy-street') === option.id ? '✓' : ''}</span>
+              </button>
+            ))}
+          </div>
         </div>
         <div className={'avatar-scene-preview scene-preview-' + (progress.avatarScene || 'rainy-street')} role="img" aria-label={'Profile portrait scene: ' + (progress.avatarScene || 'rainy street').replace('-', ' ')}>
           <div className="scene-light scene-light-one" />
