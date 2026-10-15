@@ -18,6 +18,7 @@ import {
   Lightbulb,
   LockKeyhole,
   Menu,
+  MapPin,
   MoreHorizontal,
   NotebookPen,
   Search,
@@ -898,6 +899,7 @@ const cases: CaseFile[] = [
 
 const navItems = [
   { label: 'Dispatch', key: 'home', icon: Zap },
+  { label: 'Open World', key: 'world', icon: MapPin },
   { label: 'Daily Drop', key: 'daily', icon: Target },
   { label: 'Case Files', key: 'cases', icon: FolderOpen },
   { label: 'Last Move', key: 'strategy', icon: ArrowDownRight },
@@ -906,6 +908,77 @@ const navItems = [
   { label: 'Campus', key: 'campus', icon: Users },
   { label: 'Archives', key: 'archive', icon: FileSearch },
 ];
+
+type WorldPlace = { name: string; kind: string; icon: string; description: string; person: string; role: string; line: string };
+type WorldRegion = { name: string; code: string; vibe: string; fare: number; places: WorldPlace[] };
+const WORLD_REGIONS: WorldRegion[] = [
+  { name: 'Lagos', code: 'SW · 01', vibe: 'Fast-moving city routes, campus corners, market stalls and late shifts.', fare: 0, places: [
+    { name: 'Yaba Junction', kind: 'hub', icon: '🚏', description: 'A busy interchange where students, workers and riders cross paths.', person: 'Kemi', role: 'Dispatch rider', line: 'People remember the last place they stopped, not always the exact time. Check the hand-off.' },
+    { name: 'Akoka Campus', kind: 'campus', icon: '🎓', description: 'Lecture blocks, student groups, noticeboards and hostel errands.', person: 'Seyi', role: 'Campus volunteer', line: 'If a notice matters, find the original post. A forwarded screenshot can lose its timestamp.' },
+    { name: 'Balogun Market', kind: 'market', icon: '🧺', description: 'Small shops, handwritten notes, bargaining and payment alerts.', person: 'Ifeoma', role: 'Shop owner', line: 'A debit alert is not the same as a confirmed credit. I check the account before releasing goods.' },
+    { name: 'Apapa Dispatch Yard', kind: 'work', icon: '📦', description: 'Loading bays, driver calls, route changes and delivery sheets.', person: 'Musa', role: 'Yard coordinator', line: 'Every transfer needs a time and a receiver. “Sent out” does not mean “received”.' },
+    { name: 'Mainland Café', kind: 'cafe', icon: '☕', description: 'A quiet corner to eat, charge your phone and compare notes.', person: 'Tomi', role: 'Café attendant', line: 'The regulars know the neighbourhood, but even a familiar face can misremember a time.' },
+    { name: 'The Archive Flat', kind: 'home', icon: '🏠', description: 'Your modest base: rest, organise your leads and plan the next trip.', person: 'Aunty Bisi', role: 'Neighbour', line: 'Rest first. A tired investigator starts connecting things that do not belong together.' },
+  ]},
+  { name: 'Ibadan & Oyo', code: 'SW · 02', vibe: 'Neighbourhood businesses, campus routines and market-to-market journeys.', fare: 950, places: [
+    { name: 'Dugbe Transit Stop', kind: 'hub', icon: '🚏', description: 'A central stop where routes and errands intersect.', person: 'Bode', role: 'Route regular', line: 'Ask which stop, not just which road. People use the same place name for different corners.' },
+    { name: 'Bodija Market', kind: 'market', icon: '🧺', description: 'Produce sellers, transfer receipts and a steady flow of customers.', person: 'Morenike', role: 'Trader', line: 'Keep the receipt and confirm the transfer. A cropped screenshot can hide the only important word.' },
+    { name: 'UI Campus Walk', kind: 'campus', icon: '🎓', description: 'Lecture schedules, noticeboards and students moving between buildings.', person: 'Dara', role: 'Student researcher', line: 'A class group can repeat a rumour fast. The portal or original notice is the stronger starting point.' },
+    { name: 'Mokola Workroom', kind: 'work', icon: '🧰', description: 'A shared workroom for errands, repairs and short paid shifts.', person: 'Kunle', role: 'Workshop lead', line: 'Write down who collected an item. Memory fades; a signed hand-off helps.' },
+    { name: 'Neighbourhood Kitchen', kind: 'cafe', icon: '🍲', description: 'Affordable food, water and a pause from the afternoon heat.', person: 'Tola', role: 'Kitchen owner', line: 'A short break is part of a good route plan. Keep enough for the ride back.' },
+    { name: 'Oyo Guest Room', kind: 'home', icon: '🛏️', description: 'A safe place to rest before the next leg of the trip.', person: 'Mama Ronke', role: 'Host', line: 'Make a fresh plan after you rest. Do not build a timeline from guesses.' },
+  ]},
+  { name: 'Abuja & the FCT', code: 'NC · 03', vibe: 'Appointments, office access, formal records and planned journeys between districts.', fare: 1800, places: [
+    { name: 'Wuse Transit Circle', kind: 'hub', icon: '🚏', description: 'A district junction where appointment times and routes matter.', person: 'Chidi', role: 'Ride coordinator', line: 'The time someone booked a ride and the time they arrived are two different records.' },
+    { name: 'Wuse Civic Office', kind: 'office', icon: '🏢', description: 'Reception desks, appointment slips, visitor logs and meeting rooms.', person: 'Zainab', role: 'Office administrator', line: 'A visitor register proves building entry. It does not prove someone entered a particular room.' },
+    { name: 'Garki Print & Copy', kind: 'work', icon: '🖨️', description: 'Documents, version histories and small-business errands.', person: 'Emeka', role: 'Print shop manager', line: 'Check the document version and issue date before comparing signatures or instructions.' },
+    { name: 'City Reading Room', kind: 'archive', icon: '🗃️', description: 'A quiet place to review files and arrange your timeline.', person: 'Amina', role: 'Archivist', line: 'Separate the date a letter was written from the date it was received.' },
+    { name: 'District Café', kind: 'cafe', icon: '☕', description: 'Recharge, eat and organise the next appointment.', person: 'Lami', role: 'Café attendant', line: 'A little buffer between appointments saves a lot of confusion.' },
+    { name: 'FCT Guest Suite', kind: 'home', icon: '🏠', description: 'Your temporary base for rest and planning.', person: 'Mr. Okoro', role: 'Caretaker', line: 'Check tomorrow’s route before sleeping. The plan and the actual journey can differ.' },
+  ]},
+  { name: 'Kano', code: 'NW · 04', vibe: 'Trading networks, inventory, route hand-offs and records that pass through many hands.', fare: 2200, places: [
+    { name: 'Sabon Gari Stop', kind: 'hub', icon: '🚏', description: 'A busy junction for local errands and onward trips.', person: 'Auwal', role: 'Route guide', line: 'A place name is a start. Confirm the exact gate, shop or pickup point.' },
+    { name: 'Kurmi Trading Row', kind: 'market', icon: '🧺', description: 'Merchants, item counts, receipts and supplier relationships.', person: 'Fatima', role: 'Merchant', line: 'Count the goods at every hand-off, not only at the final destination.' },
+    { name: 'Workshop Lane', kind: 'work', icon: '🧰', description: 'Repairs, inventory tags and small paid jobs.', person: 'Sani', role: 'Workshop technician', line: 'A missing item is a discrepancy to trace, not a reason to accuse the last person in the chain.' },
+    { name: 'Trade Records Desk', kind: 'archive', icon: '🗃️', description: 'Invoices, dispatch notes and stock records.', person: 'Hauwa', role: 'Records clerk', line: 'Match item numbers, quantities and signatures. Totals alone can conceal a mismatch.' },
+    { name: 'Tea Corner', kind: 'cafe', icon: '🫖', description: 'A short rest and a chance to compare notes.', person: 'Yusuf', role: 'Tea seller', line: 'Take a breather before you decide what the records mean.' },
+    { name: 'Guest Courtyard', kind: 'home', icon: '🏠', description: 'A quiet base between field visits.', person: 'Bilkisu', role: 'Host', line: 'Put the receipts in order. Tomorrow’s questions will be clearer.' },
+  ]},
+  { name: 'Enugu & Nsukka', code: 'SE · 05', vibe: 'Campus notices, town errands, student schedules and community networks.', fare: 1900, places: [
+    { name: 'Ogbete Junction', kind: 'hub', icon: '🚏', description: 'A central meeting point for errands and local journeys.', person: 'Chukwudi', role: 'Route regular', line: 'Check the timestamp on the original message, not just when it was forwarded.' },
+    { name: 'Nsukka Campus', kind: 'campus', icon: '🎓', description: 'Lecture rooms, student notices and group-chat traffic.', person: 'Adaeze', role: 'Class representative', line: 'If a lecture changes, look for the first official notice and its publication time.' },
+    { name: 'Coal Camp Shops', kind: 'market', icon: '🛍️', description: 'Neighbourhood businesses, purchases and collection notes.', person: 'Nneka', role: 'Shopkeeper', line: 'Mark the order ready, mark it collected, and keep those as separate steps.' },
+    { name: 'Community Media Desk', kind: 'archive', icon: '📻', description: 'Announcements, notices and source verification.', person: 'Ikenna', role: 'Media assistant', line: 'A repost is not the original source. Trace it back before trusting it.' },
+    { name: 'Town Kitchen', kind: 'cafe', icon: '🍲', description: 'Food, water and a pause before the next trip.', person: 'Ngozi', role: 'Kitchen owner', line: 'Plan enough time for the journey back, too.' },
+    { name: 'Nsukka Room', kind: 'home', icon: '🛏️', description: 'A modest room for rest and note-taking.', person: 'Mr. Eze', role: 'Caretaker', line: 'Write down what you know, what you suspect and what is still missing.' },
+  ]},
+  { name: 'Port Harcourt', code: 'SS · 06', vibe: 'Shift schedules, logistics, access points and waterfront work routes.', fare: 2300, places: [
+    { name: 'Mile One Junction', kind: 'hub', icon: '🚏', description: 'A route hub connecting work, errands and the waterfront.', person: 'Tamuno', role: 'Route coordinator', line: 'A delay report is useful context, but it cannot tell you someone’s exact location.' },
+    { name: 'Trans-Amadi Workshop', kind: 'work', icon: '🧰', description: 'Shift handovers, tool checklists and work orders.', person: 'Ebi', role: 'Workshop supervisor', line: 'Check the clock on each system before comparing timestamps.' },
+    { name: 'Waterfront Dispatch', kind: 'work', icon: '📦', description: 'Loading notes, access logs and delivery coordination.', person: 'Precious', role: 'Dispatch clerk', line: 'A gate entry, a handover and a workstation check are three separate events.' },
+    { name: 'Rivers Records Room', kind: 'archive', icon: '🗃️', description: 'A quiet room for matching access logs and work orders.', person: 'Ogechi', role: 'Records analyst', line: 'Missing footage creates a question. It does not answer it.' },
+    { name: 'Creekside Café', kind: 'cafe', icon: '☕', description: 'A break between field visits.', person: 'Favour', role: 'Café attendant', line: 'Save your energy for the part of the case you can verify.' },
+    { name: 'Harbour Guest House', kind: 'home', icon: '🏠', description: 'Rest, prepare and check tomorrow’s shift schedule.', person: 'Boma', role: 'Host', line: 'Keep the plan flexible. A shift change can alter the whole route.' },
+  ]},
+  { name: 'Jos & Plateau', code: 'NC · 07', vibe: 'Campus schedules, changing weather and multi-leg journeys across town.', fare: 2100, places: [
+    { name: 'Terminus Roundabout', kind: 'hub', icon: '🚏', description: 'A town junction where arrival times need careful checking.', person: 'Ladi', role: 'Route regular', line: 'A general road alert does not establish where one traveller was at that minute.' },
+    { name: 'Rayfield Work Café', kind: 'cafe', icon: '☕', description: 'A place to plan routes, recharge and review messages.', person: 'Naomi', role: 'Café owner', line: 'Keep your phone charged, but do not treat its clock as infallible.' },
+    { name: 'Plateau Campus', kind: 'campus', icon: '🎓', description: 'Student timetables, lecture changes and campus access.', person: 'Peter', role: 'Student mentor', line: 'Use a dated official notice to check when a schedule changed.' },
+    { name: 'Route Records Kiosk', kind: 'archive', icon: '🗃️', description: 'Travel notes, arrival registers and route updates.', person: 'Rita', role: 'Records assistant', line: 'Departure, arrival and sign-in are not interchangeable timestamps.' },
+    { name: 'Market Lane', kind: 'market', icon: '🧺', description: 'Neighbourhood shops and everyday purchases.', person: 'Danjuma', role: 'Shop owner', line: 'A receipt helps, but confirm the transaction and the goods too.' },
+    { name: 'Hillview Room', kind: 'home', icon: '🏠', description: 'A calm place to rest and prepare your next move.', person: 'Mrs. Pam', role: 'Host', line: 'Review the route when you are rested. Fatigue makes estimates worse.' },
+  ]},
+  { name: 'Benin City', code: 'SS · 08', vibe: 'Campus life, shops, neighbourhood connections and collection records.', fare: 1700, places: [
+    { name: 'Ring Road', kind: 'hub', icon: '🚏', description: 'A familiar city junction where pickups and meetups need exact locations.', person: 'Osas', role: 'Route guide', line: 'Confirm the actual pickup point. Two people can mean different corners by the same name.' },
+    { name: 'UNIBEN Campus', kind: 'campus', icon: '🎓', description: 'Lecture schedules, hostel errands and class notices.', person: 'Efe', role: 'Student volunteer', line: 'Go back to the original notice before relying on a forwarded message.' },
+    { name: 'Shop Row', kind: 'market', icon: '🛍️', description: 'Order slips, transfer confirmations and collection registers.', person: 'Omoregie', role: 'Shop owner', line: 'Payment received, order ready and order collected are different statuses.' },
+    { name: 'Edo Records Desk', kind: 'archive', icon: '🗃️', description: 'Receipts, stock notes and signed hand-offs.', person: 'Osayande', role: 'Records clerk', line: 'The signature is a lead. Verify who signed and whether they were authorised.' },
+    { name: 'Neighbourhood Café', kind: 'cafe', icon: '🍲', description: 'Food, water and a break before heading back out.', person: 'Ese', role: 'Café attendant', line: 'Keep a little cash for the ride home.' },
+    { name: 'Garden Room', kind: 'home', icon: '🏠', description: 'Your home base for sleep and organising clues.', person: 'Aunty Ivie', role: 'Host', line: 'A clean timeline starts with the records, not the conclusion.' },
+  ]},
+];
+const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0 };
+
 type InterviewExchange = { question: string; response: string; lead: string };
 function interviewForCase(c: CaseFile): InterviewExchange[] {
   const first = c.evidence[0];
@@ -1033,6 +1106,7 @@ function App() {
   const [activeCase, setActiveCase] = useState<CaseFile>(cases[0]);
   const [selectedInvestigator, setSelectedInvestigator] = useState<string | null>(null);
   const [progress, setProgress] = useState(readProgress);
+  const worldState = { ...WORLD_DEFAULT, ...(progress.world || {}) } as typeof WORLD_DEFAULT;
   const [answer, setAnswer] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [hintOpen, setHintOpen] = useState(false);
@@ -1136,6 +1210,79 @@ function App() {
       }),
     [search, filter, progress.solved]
   );
+
+
+  function updateWorld(patch: Record<string, any>, message?: string) {
+    setProgress((p: any) => ({ ...p, world: { ...WORLD_DEFAULT, ...(p.world || {}), ...patch } }));
+    if (message) setToast(message);
+  }
+  function travelToPlace(place: WorldPlace) {
+    if (place.name === worldState.location) return;
+    const visited = Array.isArray(worldState.visited) ? worldState.visited : [];
+    const key = worldState.region + '|' + place.name;
+    updateWorld({
+      location: place.name,
+      hour: (worldState.hour + 1) % 24,
+      day: worldState.day + (worldState.hour === 23 ? 1 : 0),
+      energy: Math.max(0, worldState.energy - 7),
+      visited: visited.includes(key) ? visited : [...visited, key],
+    }, 'Arrived at ' + place.name + '. One hour passed; energy -7.');
+  }
+  function travelToRegion(regionName: string) {
+    if (regionName === worldState.region) return;
+    const destination = WORLD_REGIONS.find(r => r.name === regionName);
+    if (!destination) return;
+    if (worldState.cash < destination.fare) {
+      setToast('Not enough cash for this trip. Take a paid shift or visit a work spot.');
+      return;
+    }
+    const start = WORLD_REGIONS.find(r => r.name === worldState.region);
+    const arrival = destination.places[0];
+    updateWorld({
+      region: destination.name,
+      location: arrival.name,
+      cash: worldState.cash - destination.fare,
+      hour: (worldState.hour + 3) % 24,
+      day: worldState.day + (worldState.hour + 3 >= 24 ? 1 : 0),
+      energy: Math.max(0, worldState.energy - 18),
+      visited: [...(worldState.visited || []), destination.name + '|' + arrival.name],
+    }, 'Travelled from ' + (start?.name || 'your last stop') + ' to ' + destination.name + '. Fare: ₦' + destination.fare.toLocaleString() + '.');
+  }
+  function worldAction(action: 'talk' | 'work' | 'eat' | 'rest' | 'investigate') {
+    const place = WORLD_REGIONS.find(r => r.name === worldState.region)?.places.find(p => p.name === worldState.location);
+    if (!place) return;
+    const leads: string[] = Array.isArray(worldState.leads) ? worldState.leads : [];
+    const leadKey = worldState.region + ' · ' + place.name + ' · ' + place.person;
+    if (action === 'talk') {
+      if (leads.includes(leadKey)) {
+        setToast(place.person + ' has already shared their lead. Check your field notebook.');
+        return;
+      }
+      updateWorld({ leads: [...leads, leadKey], reputation: worldState.reputation + 1, hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Conversation logged with ' + place.person + '. New lead added to your notebook.');
+      return;
+    }
+    if (action === 'work') {
+      if (worldState.energy < 18) { setToast('You are too tired for a shift. Rest or grab a meal first.'); return; }
+      const earned = place.kind === 'work' ? 1300 : 850;
+      updateWorld({ cash: worldState.cash + earned, energy: Math.max(0, worldState.energy - 18), hour: (worldState.hour + 2) % 24, day: worldState.day + (worldState.hour + 2 >= 24 ? 1 : 0), jobs: worldState.jobs + 1, reputation: worldState.reputation + 1 }, 'Shift complete. Earned ₦' + earned.toLocaleString() + '. Energy -18.');
+      return;
+    }
+    if (action === 'eat') {
+      if (worldState.cash < 350) { setToast('You need ₦350 for a meal. Find a paid shift first.'); return; }
+      updateWorld({ cash: worldState.cash - 350, energy: Math.min(100, worldState.energy + 22), hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Meal bought for ₦350. Energy +22.');
+      return;
+    }
+    if (action === 'rest') {
+      updateWorld({ energy: Math.min(100, worldState.energy + 42), hour: (worldState.hour + 6) % 24, day: worldState.day + (worldState.hour + 6 >= 24 ? 1 : 0) }, 'You rested. Energy restored; six hours passed.');
+      return;
+    }
+    if (action === 'investigate') {
+      if (worldState.energy < 8) { setToast('You need at least 8 energy to investigate. Rest first.'); return; }
+      const lead = 'Field observation · ' + worldState.region + ' · ' + place.name;
+      if (leads.includes(lead)) { setToast('You have already recorded this observation. Visit another location for a fresh lead.'); return; }
+      updateWorld({ leads: [...leads, lead], energy: Math.max(0, worldState.energy - 8), hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0), reputation: worldState.reputation + 1 }, 'Observation recorded in your field notebook. Energy -8.');
+    }
+  }
 
   function go(next: string) {
     setPage(next);
@@ -2930,8 +3077,81 @@ function App() {
     </>
   );
 
+
+  const currentWorldRegion = WORLD_REGIONS.find(r => r.name === worldState.region) || WORLD_REGIONS[0];
+  const currentWorldPlace = currentWorldRegion.places.find(p => p.name === worldState.location) || currentWorldRegion.places[0];
+  const worldPage = (
+    <>
+      {header('Your world, your next move.', 'OPEN WORLD / NIGERIA', 'Walk between neighbourhoods, meet people, earn cash, manage your energy and build a field notebook. The world is fictional; your choices persist in this browser.')}
+      <section className="world-dashboard">
+        <div className="world-status-row">
+          <div className="world-stat world-stat-location"><span>YOU ARE IN</span><strong>{worldState.region}</strong><small>{worldState.location}</small></div>
+          <div className="world-stat"><span>LOCAL TIME</span><strong>{String(worldState.hour).padStart(2,'0')}:00</strong><small>Day {worldState.day}</small></div>
+          <div className="world-stat"><span>POCKET CASH</span><strong>₦{worldState.cash.toLocaleString()}</strong><small>Local spending</small></div>
+          <div className="world-stat"><span>ENERGY</span><strong>{worldState.energy}%</strong><div className="world-energy-track"><i style={{width: worldState.energy + '%'}} /></div></div>
+          <div className="world-stat"><span>REPUTATION</span><strong>{worldState.reputation}</strong><small>People you have helped</small></div>
+        </div>
+        <div className="world-layout">
+          <section className="world-explore-panel">
+            <div className="world-panel-heading">
+              <div><div className="eyebrow"><span className="city-live-dot" /> LIVE FIELD MAP / FICTIONAL CITY</div><h2>{currentWorldRegion.name}</h2><p>{currentWorldRegion.vibe}</p></div>
+              <span className="world-weather">☁ 27° <small>Warm evening</small></span>
+            </div>
+            <div className="world-map" aria-label={'Interactive map of ' + currentWorldRegion.name}>
+              <div className="world-map-grid" />
+              <div className="world-road world-road-one" /><div className="world-road world-road-two" /><div className="world-road world-road-three" />
+              <div className="world-map-river" />
+              {currentWorldRegion.places.map((place, i) => {
+                const coords = [{left:'18%',top:'24%'},{left:'73%',top:'22%'},{left:'25%',top:'69%'},{left:'76%',top:'70%'},{left:'50%',top:'43%'},{left:'49%',top:'82%'}][i];
+                const here = place.name === worldState.location;
+                const visited = (worldState.visited || []).includes(worldState.region + '|' + place.name);
+                return <button key={place.name} className={'world-place-node world-place-' + place.kind + (here ? ' world-place-here' : '') + (visited ? ' world-place-visited' : '')} style={coords} onClick={() => travelToPlace(place)} aria-label={'Travel to ' + place.name}>
+                  <span className="world-place-icon">{place.icon}</span><strong>{place.name}</strong>{here && <em>YOU ARE HERE</em>}{!here && <small>WALK · 1 HR</small>}
+                </button>;
+              })}
+              <div className="world-map-compass">N<br /><span>↑</span></div>
+              <div className="world-map-scale">FIELD MAP / NOT TO SCALE</div>
+            </div>
+            <div className="world-map-legend"><span><i className="legend-current" /> Current location</span><span><i className="legend-visited" /> Visited</span><span><i className="legend-unseen" /> Not visited</span></div>
+            <div className="world-region-selector">
+              <div className="eyebrow">TRAVEL BETWEEN REGIONS / PAY FARE</div>
+              <div className="world-region-grid">
+                {WORLD_REGIONS.map(region => <button key={region.name} className={'world-region-chip' + (region.name === worldState.region ? ' active' : '')} onClick={() => travelToRegion(region.name)} disabled={region.name === worldState.region}>
+                  <span>{region.name}</span><small>{region.fare === 0 ? 'Starting city' : '₦' + region.fare.toLocaleString()}</small>
+                </button>)}
+              </div>
+            </div>
+          </section>
+          <aside className="world-side-column">
+            <section className="world-character-card">
+              <div className="eyebrow">NEIGHBOURHOOD ENCOUNTER / {currentWorldPlace.kind.toUpperCase()}</div>
+              <div className="world-character-art"><span className="world-character-halo" /><span className="world-character-avatar">{currentWorldPlace.person.split(/\s+/).map((x: string) => x[0]).slice(0,2).join('').toUpperCase()}</span><div><strong>{currentWorldPlace.person}</strong><small>{currentWorldPlace.role}</small></div></div>
+              <h3>{currentWorldPlace.name}</h3><p>{currentWorldPlace.description}</p>
+              <div className="world-dialogue"><span>“</span><p>{currentWorldPlace.line}</p></div>
+              <button className="world-primary-action" onClick={() => worldAction('talk')}><Users size={15} /> Talk to {currentWorldPlace.person}<ArrowRight size={15} /></button>
+              <button className="world-secondary-action" onClick={() => worldAction('investigate')}><Search size={15} /> Investigate this place <span>−8 energy</span></button>
+            </section>
+            <section className="world-activity-card">
+              <div className="eyebrow">EVERYDAY LIFE / ACTIONS</div><h3>What do you do next?</h3>
+              <button className="world-activity-row" onClick={() => worldAction('work')}><span className="world-activity-icon">₦</span><span><strong>Pick up a shift</strong><small>Earn ₦850–₦1,300 · 2 hours</small></span><ArrowUpRight size={15} /></button>
+              <button className="world-activity-row" onClick={() => worldAction('eat')}><span className="world-activity-icon">🍲</span><span><strong>Buy a meal</strong><small>₦350 · restore 22 energy</small></span><ArrowUpRight size={15} /></button>
+              <button className="world-activity-row" onClick={() => worldAction('rest')}><span className="world-activity-icon">🛏️</span><span><strong>Take a proper rest</strong><small>6 hours · restore 42 energy</small></span><ArrowUpRight size={15} /></button>
+            </section>
+            <section className="world-inventory-card"><div className="eyebrow">POCKET INVENTORY</div><div className="world-inventory-items">{(worldState.inventory || []).map((item: string) => <span key={item}>▣ {item}</span>)}<span>✦ {worldState.leads.length} field leads</span></div><small>Visited places: {worldState.visited.length} · Shifts completed: {worldState.jobs}</small></section>
+          </aside>
+        </div>
+        <section className="world-notebook">
+          <div className="world-panel-heading"><div><div className="eyebrow">YOUR FIELD NOTEBOOK / SAVED LOCALLY</div><h2>Leads you have picked up</h2></div><span className="world-notebook-count">{worldState.leads.length.toString().padStart(2,'0')} ENTRIES</span></div>
+          {worldState.leads.length ? <div className="world-lead-list">{worldState.leads.map((lead: string, i: number) => <div key={lead} className="world-lead-row"><span>{String(i+1).padStart(2,'0')}</span><p>{lead}</p><Check size={15} /></div>)}</div> : <div className="world-empty-notebook"><NotebookPen size={22} /><div><strong>Your notebook is blank.</strong><p>Talk to someone or investigate a place to collect your first lead. Repeated interactions will not duplicate the same lead.</p></div></div>}
+        </section>
+        <div className="world-footnote"><ShieldCheck size={14} /> WORLD STATE SAVES ON THIS DEVICE · FICTIONAL LOCATIONS & CHARACTERS · NO LIVE MULTIPLAYER YET</div>
+      </section>
+    </>
+  );
+
   const pageMap: Record<string, any> = {
     home: homePage,
+    world: worldPage,
     play: playPage,
     cases: casesPage,
     daily: dailyPage,
