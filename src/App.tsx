@@ -1235,6 +1235,48 @@ function App() {
         'DISPATCH / 001',
         'Read the evidence. Catch the detail. Make your case.'
       )}
+      <section className="lagos-world" aria-label="Lagos city life and field intelligence">
+        <div className="lagos-world-heading">
+          <div>
+            <div className="eyebrow"><span className="city-live-dot" /> CITY SYSTEM / LAGOS STATE</div>
+            <h2>The city is part of the case.</h2>
+            <p>From the first danfo horn to the last buka closing, every neighbourhood has its own rhythm, witnesses, pressure points and paper trail.</p>
+          </div>
+          <span className="lagos-world-stamp">FIELD<br />GUIDE 01</span>
+        </div>
+        <div className="lagos-life-strip" aria-label="Lagos everyday life">
+          <span><b>01</b> ROAD & ROUTE</span>
+          <span><b>02</b> MARKET & MONEY</span>
+          <span><b>03</b> CAMPUS & COMPOUND</span>
+          <span><b>04</b> NIGHT SHIFT</span>
+        </div>
+        <div className="lagos-district-grid">
+          <button className="lagos-district" onClick={() => { setSearch('campus'); go('campus'); }}>
+            <span className="district-index">MAINLAND / 01</span><strong>Yaba & Akoka</strong>
+            <span>Campus gossip, tech offices, bus stops, class reps and messages moving faster than the people who sent them.</span>
+            <i>Follow campus leads <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('market'); go('cases'); }}>
+            <span className="district-index">MARKET GRID / 02</span><strong>Balogun & Idumota</strong>
+            <span>Receipts, cash transfers, shop ledgers, delivery riders, bargaining and the difference between “sent” and “received”.</span>
+            <i>Check the paper trail <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('logistics'); go('cases'); }}>
+            <span className="district-index">PORT & TRANSIT / 03</span><strong>Oshodi to Apapa</strong>
+            <span>Bus parks, loading bays, traffic delays, dispatch calls and timelines that do not survive a bad route estimate.</span>
+            <i>Trace the movement <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('night'); go('streetcraft'); }}>
+            <span className="district-index">AFTER DARK / 04</span><strong>Lekki & Victoria Island</strong>
+            <span>Late shifts, lounges, security desks, ride receipts and people whose public story changes after closing time.</span>
+            <i>Work the night shift <ArrowUpRight size={14} /></i>
+          </button>
+        </div>
+        <div className="lagos-world-foot">
+          <span><span className="city-live-dot" /> LOCAL LIFE IS EVIDENCE</span>
+          <span>Traffic • Power • Weather • Work • Family • Community</span>
+        </div>
+      </section>
       <section className="hero-grid">
         <div className="featured-case">
           <div className="feature-top">
@@ -2667,11 +2709,10 @@ function App() {
       <main className="main-content">
         <div className="topline">
           <span>
-            <span className="topline-dot" /> ARCHIVE CONNECTION STABLE
+            <span className="topline-dot" /> LAGOS FIELD NETWORK <span className="topline-sep">·</span> FICTIONAL CASEWORK
           </span>
           <span>
-            FIELD OFFICE / NIGERIA <span className="topline-sep">·</span> LOCAL
-            TIME
+            LAGOS, NIGERIA <span className="topline-sep">·</span> MAINLAND ↔ ISLAND
           </span>
         </div>
         <div className="page-body">
