@@ -1238,15 +1238,20 @@ function App() {
     }
     const start = WORLD_REGIONS.find(r => r.name === worldState.region);
     const arrival = destination.places[0];
+    const fare = destination.name === 'Lagos' ? (start?.fare || 0) : (start?.name === 'Lagos' ? destination.fare : destination.fare + (start?.fare || 0));
+    if (worldState.cash < fare) {
+      setToast('This trip costs ₦' + fare.toLocaleString() + '. Take a paid shift or choose a closer stop first.');
+      return;
+    }
     updateWorld({
       region: destination.name,
       location: arrival.name,
-      cash: worldState.cash - destination.fare,
+      cash: worldState.cash - fare,
       hour: (worldState.hour + 3) % 24,
       day: worldState.day + (worldState.hour + 3 >= 24 ? 1 : 0),
       energy: Math.max(0, worldState.energy - 18),
       visited: [...(worldState.visited || []), destination.name + '|' + arrival.name],
-    }, 'Travelled from ' + (start?.name || 'your last stop') + ' to ' + destination.name + '. Fare: ₦' + destination.fare.toLocaleString() + '.');
+    }, 'Travelled from ' + (start?.name || 'your last stop') + ' to ' + destination.name + '. Fare: ₦' + fare.toLocaleString() + '.');
   }
   function worldAction(action: 'talk' | 'work' | 'eat' | 'rest' | 'investigate') {
     const place = WORLD_REGIONS.find(r => r.name === worldState.region)?.places.find(p => p.name === worldState.location);
@@ -3095,7 +3100,7 @@ function App() {
           <section className="world-explore-panel">
             <div className="world-panel-heading">
               <div><div className="eyebrow"><span className="city-live-dot" /> LIVE FIELD MAP / FICTIONAL CITY</div><h2>{currentWorldRegion.name}</h2><p>{currentWorldRegion.vibe}</p></div>
-              <span className="world-weather">☁ 27° <small>Warm evening</small></span>
+              <span className="world-weather">☁ 27° <small>{worldState.hour < 12 ? 'Morning routes' : worldState.hour < 17 ? 'Afternoon heat' : worldState.hour < 21 ? 'Evening rush' : 'Night shift'}</small></span>
             </div>
             <div className="world-map" aria-label={'Interactive map of ' + currentWorldRegion.name}>
               <div className="world-map-grid" />
@@ -3130,6 +3135,7 @@ function App() {
               <div className="world-dialogue"><span>“</span><p>{currentWorldPlace.line}</p></div>
               <button className="world-primary-action" onClick={() => worldAction('talk')}><Users size={15} /> Talk to {currentWorldPlace.person}<ArrowRight size={15} /></button>
               <button className="world-secondary-action" onClick={() => worldAction('investigate')}><Search size={15} /> Investigate this place <span>−8 energy</span></button>
+              <button className="world-secondary-action" onClick={() => { const term = currentWorldRegion.name === 'Ibadan & Oyo' ? 'Ibadan' : currentWorldRegion.name === 'Abuja & the FCT' ? 'Abuja' : currentWorldRegion.name === 'Enugu & Nsukka' ? 'Enugu' : currentWorldRegion.name === 'Jos & Plateau' ? 'Jos' : currentWorldRegion.name === 'Lagos' ? '' : currentWorldRegion.name; setSearch(term); setFilter('All cases'); go('cases'); }}><FolderOpen size={15} /> Browse regional case files <ArrowUpRight size={14} /></button>
             </section>
             <section className="world-activity-card">
               <div className="eyebrow">EVERYDAY LIFE / ACTIONS</div><h3>What do you do next?</h3>
