@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import World3D from './World3D';
 import {
   ArrowDownRight,
   ArrowLeft,
@@ -3321,6 +3322,7 @@ function App() {
               <div><div className="eyebrow"><span className="city-live-dot" /> LIVE FIELD MAP / FICTIONAL CITY</div><h2>{currentWorldRegion.name}</h2><p>{currentWorldRegion.vibe}</p></div>
               <span className="world-weather">☁ 27° <small>{worldState.hour < 12 ? 'Morning routes' : worldState.hour < 17 ? 'Afternoon heat' : worldState.hour < 21 ? 'Evening rush' : 'Night shift'}</small></span>
             </div>
+            <World3D region={currentWorldRegion.name} location={worldState.location} hour={worldState.hour} onInteract={() => interactWithStreet()} />
             <section className="world-street-scene" aria-label="Playable Nigerian street scene">
               <div className="world-scene-topline"><span><i /> STREET VIEW / {currentWorldRegion.name.toUpperCase()}</span><span>GOLDEN HOUR · LOCAL LIFE</span></div>
               <div className="world-scene-stage" role="application" aria-label="Use W A S D or arrow keys to walk around the street">
