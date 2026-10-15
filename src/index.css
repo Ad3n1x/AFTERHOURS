@@ -3925,3 +3925,22 @@ textarea { min-height: 100px; resize: vertical; }
 .app-shell:has(.world-dashboard) .world-panel-heading h2{font-size:clamp(23px,3vw,34px);letter-spacing:-.04em}
 .app-shell:has(.world-dashboard) .world-stat-location{border-left:2px solid var(--lime)}
 @media(min-width:1000px){.app-shell:has(.world-dashboard) .world-scene-stage{height:clamp(400px,45vw,570px)}}
+
+
+/* Everyday Lagos layer — life between investigations */
+.lagos-life-panel{margin:0 0 18px;padding:16px;border:1px solid #384843;border-radius:7px;background:linear-gradient(135deg,#182321,#121a1b 75%);box-shadow:0 12px 30px #0002}
+.lagos-life-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:13px}
+.lagos-life-heading h3{margin:5px 0 6px;color:#f2eee1;font:500 clamp(22px,2.5vw,30px)/1.1 var(--serif);letter-spacing:-.035em}
+.lagos-life-heading p{max-width:650px;margin:0;color:#a8b7ad;font-size:11px;line-height:1.7}
+.lagos-life-weather{flex:none;padding:8px 10px;border:1px solid #475347;border-radius:4px;color:#e4c48a;background:#222c26;font:9px var(--mono);letter-spacing:.04em}
+.lagos-life-weather small{display:block;margin-top:5px;color:#a7b2a5;font-size:8px}
+.lagos-life-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.lagos-life-card{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;padding:11px;border:1px solid #34413c;border-radius:5px;background:#151f1e}
+.lagos-life-icon{display:grid;place-items:center;width:36px;height:36px;border:1px solid #475349;border-radius:5px;background:#202b25;font-size:19px}
+.lagos-life-card strong{display:block;color:#e8e8da;font-size:11px}
+.lagos-life-card p{margin:4px 0 0;color:#9eada3;font-size:9px;line-height:1.55}
+.lagos-life-card button{display:flex;align-items:center;gap:5px;padding:8px 9px;border:1px solid #56634e;border-radius:4px;background:#29372b;color:var(--lime);font-size:9px;cursor:pointer;white-space:nowrap}
+.lagos-life-card button:hover{border-color:var(--lime);background:#354630}
+.lagos-life-footnote{display:flex;align-items:center;gap:7px;margin-top:12px;color:#84958b;font:8px/1.6 var(--mono);letter-spacing:.04em}
+.lagos-life-footnote span{color:var(--lime)}
+@media(max-width:650px){.lagos-life-panel{padding:12px}.lagos-life-heading{flex-direction:column}.lagos-life-weather{display:flex;align-items:center;gap:10px}.lagos-life-weather small{margin:0}.lagos-life-grid{grid-template-columns:minmax(0,1fr)}.lagos-life-card{grid-template-columns:34px minmax(0,1fr) auto;gap:8px;padding:9px}.lagos-life-icon{width:32px;height:32px;font-size:17px}.lagos-life-card button{padding:8px 7px}}
