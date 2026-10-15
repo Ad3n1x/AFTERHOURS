@@ -1463,42 +1463,42 @@ function App() {
           <span><b>04</b> WORK, CAMPUS & FAMILY</span>
         </div>
         <div className="lagos-district-grid nigeria-region-grid">
-          <button className="lagos-district" onClick={() => { setSearch('Lagos Yaba campus market dispatch'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Lagos'); go('cases'); }}>
             <span className="district-index">SOUTHWEST / 01</span><strong>Lagos</strong>
             <span>Yaba and Akoka campuses, Balogun and Idumota trading, Oshodi and Apapa routes, Mainland routines and Island night shifts.</span>
             <i>Explore Lagos leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Ibadan Oyo State campus market neighbourhood'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Ibadan'); go('cases'); }}>
             <span className="district-index">SOUTHWEST / 02</span><strong>Ibadan & Oyo</strong>
             <span>Campus life, neighbourhood businesses, market runs, family networks and trips shaped by local routes and timing.</span>
             <i>Explore Southwest leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Abuja FCT office appointment official document'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Abuja'); go('cases'); }}>
             <span className="district-index">NORTH-CENTRAL / 03</span><strong>Abuja & the FCT</strong>
             <span>Appointments, office access, visitor records, formal correspondence and people moving between districts.</span>
             <i>Explore FCT leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Kano market trade route receipt'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Kano'); go('cases'); }}>
             <span className="district-index">NORTHWEST / 04</span><strong>Kano</strong>
             <span>Trade, market hours, multiple hand-offs and the details that matter when a transaction passes through many hands.</span>
             <i>Explore trade leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Enugu Nsukka campus student community'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Enugu'); go('cases'); }}>
             <span className="district-index">SOUTHEAST / 05</span><strong>Enugu & Nsukka</strong>
             <span>Student schedules, community ties, small businesses and journeys between campus and town.</span>
             <i>Explore campus leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Port Harcourt Rivers State logistics shift terminal'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Port Harcourt'); go('cases'); }}>
             <span className="district-index">SOUTH-SOUTH / 06</span><strong>Port Harcourt</strong>
             <span>Shift schedules, logistics, access rules, work records and waterfront or industrial movement.</span>
             <i>Explore logistics leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Jos Plateau weather road campus'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Jos'); go('cases'); }}>
             <span className="district-index">NORTH-CENTRAL / 07</span><strong>Jos & Plateau</strong>
             <span>Weather, road conditions, campus routines and multi-leg journeys where estimates need checking.</span>
             <i>Explore route leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('Benin City Edo State UNIBEN campus shop'); go('cases'); }}>
+          <button className="lagos-district" onClick={() => { setSearch('Benin City'); go('cases'); }}>
             <span className="district-index">SOUTH-SOUTH / 08</span><strong>Benin City</strong>
             <span>Campus life, shops, family connections, transport links and messages moving between social circles.</span>
             <i>Explore community leads <ArrowUpRight size={14} /></i>
