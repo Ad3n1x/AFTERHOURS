@@ -13,8 +13,8 @@ type Lot = {
 const PALETTE = ['#c38b5e','#c5b39b','#9f604e','#a8a080','#d1a56d','#778b79','#b98a77','#8c9ba1'];
 const LOTS: Lot[] = Array.from({ length: 49 }, (_, index) => {
   const col = index % 7, row = Math.floor(index / 7);
-  const x = (col - 3) * 14 + (col % 2 ? 5.1 : -5.1);
-  const z = (row - 3) * 14 + (row % 2 ? 5.1 : -5.1);
+  const x = (col - 3) * 14 + 7;
+  const z = (row - 3) * 14 + 7;
   const special = [
     { label: 'MAMA TITI PROVISIONS', kind: 'shop' as const, color: '#c38b5e' },
     { label: 'AKARA & PEPPER', kind: 'food' as const, color: '#b75c38' },
@@ -127,9 +127,9 @@ function HomeInterior({ onExit, onToast }: { onExit: () => void; onToast: (s: st
   </>;
 }
 
-function Scene({ hour, interior, onEnter, onTalk, onActivity, onToast }: {
+function Scene({ hour, interior, onEnter, onTalk, onActivity, onToast, onExitHome }: {
   hour: number; interior: boolean; onEnter: (lot: Lot) => void;
-  onTalk: (npc: typeof NPC_STARTS[number]) => void; onActivity: (a: Activity) => void; onToast: (s: string) => void;
+  onTalk: (npc: typeof NPC_STARTS[number]) => void; onActivity: (a: Activity) => void; onToast: (s: string) => void; onExitHome: () => void;
 }) {
   const playerRef = useRef<Group>(null);
   const keys = useRef(new Set<string>());
@@ -188,7 +188,7 @@ function Scene({ hour, interior, onEnter, onTalk, onActivity, onToast }: {
   const dusk = hour >= 18 || hour < 6;
   const activity = (title: string, detail: string, action: string) => onActivity({ title, detail, action });
   return <>
-    {interior ? <HomeInterior onExit={() => onToast('Returned to the neighbourhood.')} onToast={onToast} /> : <>
+    {interior ? <HomeInterior onExit={onExitHome} onToast={onToast} /> : <>
       <color attach="background" args={[dusk ? '#17212d' : '#a8d0d4']} />
       <fog attach="fog" args={[dusk ? '#263342' : '#a8c4bf', 32, 100]} />
       <ambientLight intensity={dusk ? 0.5 : 1.1} />
@@ -260,7 +260,7 @@ export default function World3D({ region, location, hour, onInteract }: World3DP
     </div>
     <div className="world3d-canvas">
       <Canvas shadows dpr={[1,1.25]} camera={{ position:[8.8,8.3,12.5], fov:48 }} gl={{ antialias:true, powerPreference:'low-power' }}>
-        <Scene hour={hour} interior={interior} onEnter={onEnter} onTalk={onTalk} onActivity={setActivity} onToast={setToast} />
+        <Scene hour={hour} interior={interior} onEnter={onEnter} onTalk={onTalk} onActivity={setActivity} onToast={setToast} onExitHome={backToStreet} />
       </Canvas>
       <div className="world3d-controls" aria-label="Touch movement controls">
         <div className="world3d-dpad">
