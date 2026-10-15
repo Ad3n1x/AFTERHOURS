@@ -129,7 +129,7 @@ function Player() {
   );
 }
 
-function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: string) => void; selected: string }) {
+function Scene({ hour }: { hour: number }) {
   const playerRef = useRef<Group>(null);
   const keys = useRef(new Set<string>());
   const [moving, setMoving] = useState(false);
@@ -174,7 +174,6 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
     camera.lookAt(p.x, 0.6, p.z);
   });
 
-  const choose = (name: string) => onSelect(name);
   const dusk = hour >= 18 || hour < 6;
   return (
     <>
@@ -182,7 +181,7 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
       <fog attach="fog" args={[dusk ? '#263342' : '#a8c4bf', 18, 42]} />
       <ambientLight intensity={dusk ? 0.5 : 1.25} />
       <directionalLight castShadow position={[-7, 12, 6]} intensity={dusk ? 1.2 : 2.2} shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
-      <Sky sunPosition={dusk ? [0.2, -0.08, -1] : [2, 3, 1]} turbidity={8} rayleigh={1.5} />
+      <Sky sunPosition={dusk ? ([0.2, -0.08, -1] as [number, number, number]) : ([2, 3, 1] as [number, number, number])} turbidity={8} rayleigh={1.5} />
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.06, 0]}>
         <planeGeometry args={[40, 40]} />
         <meshStandardMaterial color="#b9a982" roughness={1} />
@@ -210,7 +209,6 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
       <group ref={playerRef} position={[0, 0, 2]}>
         <Player />
       </group>
-      {selected ? <Html position={[0, 3.2, -1]} center><div className="world3d-toast">Selected: {selected}</div></Html> : null}
       <Html fullscreen>
         <div className="world3d-hud">
           <span className="world3d-live"><i /> 3D NEIGHBOURHOOD</span>
@@ -223,7 +221,6 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
 }
 
 export default function World3D({ region, location, hour, onInteract }: World3DProps) {
-  const [selected, setSelected] = useState('');
   return (
     <section className="world3d-panel" aria-label="Playable 3D Nigerian neighbourhood">
       <div className="world3d-panel-heading">
@@ -232,12 +229,12 @@ export default function World3D({ region, location, hour, onInteract }: World3DP
       </div>
       <div className="world3d-canvas">
         <Canvas shadows dpr={[1, 1.35]} camera={{ position: [8.5, 8.5, 12.5], fov: 48 }} gl={{ antialias: true, powerPreference: 'low-power' }}>
-          <Scene hour={hour} selected={selected} onSelect={setSelected} />
+          <Scene hour={hour} />
         </Canvas>
       </div>
       <div className="world3d-actions">
         <span><strong>Objective:</strong> move around the street and explore the local shops.</span>
-        <button onClick={() => { setSelected(''); onInteract?.(); }}>Interact with neighbourhood <span>↗</span></button>
+        <button onClick={() => { onInteract?.(); }}>Interact with neighbourhood <span>↗</span></button>
       </div>
       <p className="world3d-footnote">3D prototype · Progress and life systems remain connected to AFTERHOURS. Multiplayer is not enabled.</p>
     </section>
