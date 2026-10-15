@@ -3812,3 +3812,64 @@ textarea { min-height: 100px; resize: vertical; }
   .field-lens-icon { width: 31px; height: 31px; }
   .field-lens-stamp { display: none; }
 }
+
+/* Nigeria-wide world layer */
+.nigeria-region-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.nigeria-systems {
+  margin-top: 19px;
+  padding: 17px 0 0;
+  border-top: 1px solid #2b383b;
+}
+.nigeria-systems-heading h3 {
+  margin: 6px 0 13px;
+  color: var(--paper);
+  font: 500 clamp(19px, 2vw, 25px)/1.2 var(--serif);
+  letter-spacing: -.025em;
+}
+.nigeria-systems-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.nigeria-systems-grid > div {
+  min-width: 0;
+  padding: 13px 13px 12px;
+  border: 1px solid #29383b;
+  border-radius: 5px;
+  background: rgba(5,10,12,.24);
+}
+.system-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(199,243,107,.28);
+  border-radius: 4px;
+  color: var(--lime);
+  font: 13px var(--mono);
+}
+.nigeria-systems-grid strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #e8e6dc;
+  font-size: 12px;
+  font-weight: 600;
+}
+.nigeria-systems-grid p {
+  margin: 0;
+  color: #9eaaab;
+  font-size: 10px;
+  line-height: 1.75;
+}
+.nigeria-region-grid .lagos-district { min-height: 205px; }
+@media (max-width: 1100px) {
+  .nigeria-region-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nigeria-systems-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .nigeria-region-grid { grid-template-columns: minmax(0, 1fr); }
+  .nigeria-region-grid .lagos-district { min-height: 0; }
+  .nigeria-systems-grid { grid-template-columns: minmax(0, 1fr); }
+  .nigeria-systems-grid > div { padding: 12px; }
+}
