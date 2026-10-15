@@ -898,8 +898,8 @@ const cases: CaseFile[] = [
 ];
 
 const navItems = [
-  { label: 'Dispatch', key: 'home', icon: Zap },
   { label: 'Open World', key: 'world', icon: MapPin },
+  { label: 'Dispatch', key: 'home', icon: Zap },
   { label: 'Daily Drop', key: 'daily', icon: Target },
   { label: 'Case Files', key: 'cases', icon: FolderOpen },
   { label: 'Last Move', key: 'strategy', icon: ArrowDownRight },
@@ -1102,7 +1102,7 @@ function readProgress() {
   }
 }
 function App() {
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState('world');
   const [activeCase, setActiveCase] = useState<CaseFile>(cases[0]);
   const [selectedInvestigator, setSelectedInvestigator] = useState<string | null>(null);
   const [progress, setProgress] = useState(readProgress);
@@ -1493,19 +1493,19 @@ function App() {
     <aside className={'sidebar ' + (menuOpen ? 'sidebar-open' : '')}>
       <button
         className="brand"
-        onClick={() => go('home')}
-        aria-label="AFTERHOURS home"
+        onClick={() => go('world')}
+        aria-label="AFTERHOURS enter open world"
       >
         <span className="brand-mark">
           <Fingerprint size={21} />
         </span>
         <span className="brand-word">
           AFTER<span>HOURS</span>
-          <small>THE INVESTIGATION CLUB</small>
+          <small>ENTER THE WORLD</small>
         </span>
       </button>
       <div className="side-label">
-        YOUR DESK <span>01—08</span>
+        WORLD ACCESS <span>01—09</span>
       </div>
       <nav className="main-nav">
         {navItems.map(item => {
@@ -3134,7 +3134,7 @@ function App() {
   const currentWorldPlace = currentWorldRegion.places.find(p => p.name === worldState.location) || currentWorldRegion.places[0];
   const worldPage = (
     <>
-      {header('Your world, your next move.', 'OPEN WORLD / NIGERIA', 'Walk between neighbourhoods, meet people, earn cash, manage your energy and build a field notebook. The world is fictional; your choices persist in this browser.')}
+      {header('The streets are yours to explore.', 'OPEN WORLD / NIGERIA', 'You enter the world first. Walk the neighbourhood, meet people, follow leads, earn a living and travel across Nigeria. Your progress saves in this browser.')}
       <section className="world-dashboard">
         <div className="world-status-row">
           <div className="world-stat world-stat-location"><span>YOU ARE IN</span><strong>{worldState.region}</strong><small>{worldState.location}</small></div>
