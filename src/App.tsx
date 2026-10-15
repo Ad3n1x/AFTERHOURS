@@ -750,6 +750,23 @@ function interviewForCase(c: CaseFile): InterviewExchange[] {
   ];
 }
 
+function lagosFieldLens(c: CaseFile) {
+  const context = (c.title + ' ' + c.subtitle + ' ' + c.intro + ' ' + c.tags.join(' ')).toLowerCase();
+  if (/campus|lecture|course|hostel|group chat|class rep/.test(context)) {
+    return { area: 'YABA / AKOKA LENS', rhythm: 'Campus timetable, hostel reception, class-group messages and people moving between lectures.', checks: 'Verify the original message, room-change notice, timestamp and who had direct access.' };
+  }
+  if (/market|stall|ledger|receipt|cash|transfer|shop/.test(context)) {
+    return { area: 'BALOGUN / IDUMOTA LENS', rhythm: 'Busy trading hours, handwritten records, payment alerts, delivery hand-offs and several people handling one transaction.', checks: 'Separate payment initiated, payment confirmed, goods dispatched and goods received.' };
+  }
+  if (/parcel|delivery|dispatch|logistics|port|package|tracking/.test(context)) {
+    return { area: 'OSHODI / APAPA LENS', rhythm: 'Route changes, loading points, rider calls, traffic delays and a tracking status that may not tell the whole story.', checks: 'Build a timeline from independent timestamps, call records, hand-off notes and the actual destination.' };
+  }
+  if (/night|club|late|security|ride|lekki|island/.test(context)) {
+    return { area: 'ISLAND / AFTER-DARK LENS', rhythm: 'Shift changes, venue entry logs, ride receipts, security desks and conflicting recollections after a long night.', checks: 'Confirm the route, time window and independent records before treating an alibi as settled.' };
+  }
+  return { area: 'LAGOS MAINLAND / FIELD LENS', rhythm: 'Commutes, neighbourhood businesses, family and work routines, phone records and witnesses who each saw only one part.', checks: 'Cross-check accounts against records created independently; a familiar location is context, not proof.' };
+}
+
 const episodes = [
   {
     no: 'EP. 01',
@@ -1590,6 +1607,16 @@ function App() {
           </div>
         </div>
       </div>
+      <section className="lagos-field-lens" aria-label="Lagos field context">
+        <div className="field-lens-icon"><Fingerprint size={18} /></div>
+        <div className="field-lens-copy">
+          <div className="eyebrow">LAGOS FIELD LENS / CONTEXT, NOT CONCLUSION</div>
+          <h3>{lagosFieldLens(activeCase).area}</h3>
+          <p>{lagosFieldLens(activeCase).rhythm}</p>
+          <div><strong>What to verify:</strong> {lagosFieldLens(activeCase).checks}</div>
+        </div>
+        <span className="field-lens-stamp">ON<br />GROUND</span>
+      </section>
       <div className="play-layout">
         <section className="evidence-column">
           <section className="case-team" aria-label="Investigation team">
