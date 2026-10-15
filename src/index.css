@@ -3578,3 +3578,181 @@ textarea { min-height: 100px; resize: vertical; }
 @keyframes interview-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) { .interview-room { padding: 14px; } .interview-question { grid-template-columns: 30px minmax(0,1fr) 14px; gap: 8px; padding: 11px 9px; font-size: 12px; } .interview-response { padding: 13px; } }
 @media (prefers-reduced-motion: reduce) { .interview-response { animation: none; } }
+
+
+/* LAGOS WORLD RETROFIT — lived-in city layer */
+.lagos-world {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 30px;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid #34464a;
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 92% 5%, rgba(198, 232, 123, .10), transparent 34%),
+    linear-gradient(135deg, #151f24 0%, #10161b 56%, #171c1b 100%);
+  box-shadow: 0 20px 55px rgba(0,0,0,.18);
+}
+.lagos-world::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime), #d5a85e 45%, transparent 90%);
+}
+.lagos-world-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+.lagos-world-heading h2 {
+  margin: 10px 0 8px;
+  max-width: 620px;
+  font-family: var(--serif);
+  font-size: clamp(25px, 3.1vw, 39px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -.035em;
+}
+.lagos-world-heading p {
+  max-width: 670px;
+  margin: 0;
+  color: #aab5b7;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.city-live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(199,243,107,.09);
+  vertical-align: middle;
+}
+.lagos-world-stamp {
+  flex: 0 0 auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(199,243,107,.35);
+  color: var(--lime);
+  font: 10px/1.55 var(--mono);
+  letter-spacing: .12em;
+  text-align: center;
+  transform: rotate(3deg);
+}
+.lagos-life-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 23px 0 15px;
+}
+.lagos-life-strip span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #303c40;
+  border-radius: 4px;
+  color: #b9c3c1;
+  background: rgba(5,10,12,.24);
+  font: 9px var(--mono);
+  letter-spacing: .06em;
+}
+.lagos-life-strip b {
+  color: var(--amber);
+  font-weight: 500;
+}
+.lagos-district-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.lagos-district {
+  display: flex;
+  min-width: 0;
+  min-height: 195px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px 15px 14px;
+  border: 1px solid #303b3e;
+  border-radius: 6px;
+  background: linear-gradient(160deg, rgba(35,47,49,.72), rgba(13,19,22,.78));
+  text-align: left;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.lagos-district:hover {
+  transform: translateY(-3px);
+  border-color: rgba(199,243,107,.62);
+  background: linear-gradient(160deg, rgba(43,59,57,.85), rgba(15,22,24,.94));
+}
+.lagos-district:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+}
+.district-index {
+  margin-bottom: 15px;
+  color: #c8a76c;
+  font: 9px var(--mono);
+  letter-spacing: .08em;
+}
+.lagos-district strong {
+  margin-bottom: 9px;
+  color: #f0eee5;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+.lagos-district > span:not(.district-index) {
+  color: #a4b0b1;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.lagos-district i {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--lime);
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: .02em;
+}
+.lagos-world-foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 9px 20px;
+  margin-top: 17px;
+  padding-top: 13px;
+  border-top: 1px solid #2b383b;
+  color: #819092;
+  font: 9px var(--mono);
+  letter-spacing: .055em;
+}
+.lagos-world-foot > span:first-child { color: #c1d0bd; }
+@media (max-width: 1100px) {
+  .lagos-district-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lagos-district { min-height: 175px; }
+}
+@media (max-width: 650px) {
+  .lagos-world { padding: 18px 14px; margin-bottom: 22px; }
+  .lagos-world-heading { gap: 10px; }
+  .lagos-world-heading h2 { font-size: 27px; }
+  .lagos-world-heading p { font-size: 12px; line-height: 1.7; }
+  .lagos-world-stamp { padding: 7px 8px; font-size: 8px; }
+  .lagos-life-strip { gap: 6px; margin-top: 18px; }
+  .lagos-life-strip span { padding: 7px; font-size: 8px; }
+  .lagos-district-grid { grid-template-columns: minmax(0,1fr); }
+  .lagos-district { min-height: 0; padding: 15px; }
+  .district-index { margin-bottom: 10px; }
+  .lagos-district i { padding-top: 12px; }
+  .lagos-world-foot { font-size: 8px; line-height: 1.7; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lagos-district { transition: none; }
+  .lagos-district:hover { transform: none; }
+}
