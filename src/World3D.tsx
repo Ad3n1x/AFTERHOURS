@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Html, Sky } from '@react-three/drei';
+import { Html, Sky } from '@react-three/drei';
 import type { Group } from 'three';
 
 type World3DProps = {
@@ -102,16 +102,9 @@ function Tree({ position }: { position: [number, number, number] }) {
   );
 }
 
-function Player({ positionRef }: { positionRef: React.RefObject<Group | null> }) {
-  const group = useRef<Group>(null);
-  useFrame(() => {
-    if (group.current && positionRef.current) {
-      group.current.position.copy(positionRef.current.position);
-      group.current.rotation.y = positionRef.current.rotation.y;
-    }
-  });
+function Player() {
   return (
-    <group ref={group}>
+    <group>
       <mesh castShadow position={[0, 0.92, 0]}>
         <capsuleGeometry args={[0.28, 0.72, 4, 8]} />
         <meshStandardMaterial color="#d18b58" roughness={0.9} />
@@ -190,7 +183,6 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
       <ambientLight intensity={dusk ? 0.5 : 1.25} />
       <directionalLight castShadow position={[-7, 12, 6]} intensity={dusk ? 1.2 : 2.2} shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
       <Sky sunPosition={dusk ? [0.2, -0.08, -1] : [2, 3, 1]} turbidity={8} rayleigh={1.5} />
-      <Environment preset="city" />
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.06, 0]}>
         <planeGeometry args={[40, 40]} />
         <meshStandardMaterial color="#b9a982" roughness={1} />
@@ -216,7 +208,7 @@ function Scene({ hour, onSelect, selected }: { hour: number; onSelect: (name: st
       <Tree position={[8.5, 0, -7.8]} />
       <Tree position={[-8.6, 0, 7.5]} />
       <group ref={playerRef} position={[0, 0, 2]}>
-        <Player positionRef={playerRef} />
+        <Player />
       </group>
       {selected ? <Html position={[0, 3.2, -1]} center><div className="world3d-toast">Selected: {selected}</div></Html> : null}
       <Html fullscreen>
