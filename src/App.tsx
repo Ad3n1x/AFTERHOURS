@@ -1009,7 +1009,7 @@ const WORLD_REGIONS: WorldRegion[] = [
     { name: 'Town Guest Room', kind: 'home', icon: '🛏️', description: 'A calm base for rest and planning.', person: 'Aunty Uyai', role: 'Host', line: 'Keep observations, rumours and conclusions separate.' },
   ]},
  ];
-const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0, hunger: 78, fun: 62, social: 45, hygiene: 86, bladder: 18, skill: 0, career: 'Market Trader', home: 'Yaba Room', rent: 6000, lifeActions: 0 };
+const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0, hunger: 78, fun: 62, social: 45, hygiene: 86, bladder: 18, skill: 0, career: 'Market Trader', home: 'Yaba Room', homeTier: 0, rent: 6000, furniture: [], rentPaidDay: 1, lifeActions: 0 };
 
 type InterviewExchange = { question: string; response: string; lead: string };
 function interviewForCase(c: CaseFile): InterviewExchange[] {
@@ -1327,6 +1327,52 @@ function App() {
     if (action === 'toilet') { advance(0.25, { bladder: 0 }, 'Quick stop. Bladder need reset.'); return; }
     if (action === 'study') { advance(2, { skill: Math.min(10, worldState.skill + 1), energy: Math.max(0, worldState.energy - 8), fun: Math.max(0, worldState.fun - 4) }, 'Study session complete. Career skill increased.'); return; }
     advance(0, { home: 'Yaba Room', rent: 6000, energy: Math.min(100, worldState.energy + 5) }, 'You checked in at your Yaba room. Rent is ₦6,000 per game week.');
+  }
+
+  const HOME_OPTIONS = [
+    { name: 'Yaba Room', rent: 6000, deposit: 12000, description: 'A modest room in a lively compound. Start small and build your way up.' },
+    { name: 'Ibadan Mini-flat', rent: 18000, deposit: 36000, description: 'More privacy, more space and room for your own furniture.' },
+    { name: 'Abuja Apartment', rent: 42000, deposit: 84000, description: 'A more comfortable base for a growing career and bigger plans.' },
+  ];
+  const FURNITURE_OPTIONS = [
+    { id: 'mattress', name: 'Foam mattress', cost: 8500, icon: '🛏️', effect: 'Rest to restore energy and fun.' },
+    { id: 'standing-fan', name: 'Standing fan', cost: 14500, icon: '🌀', effect: 'Use it to cool down and improve comfort.' },
+    { id: 'study-desk', name: 'Study desk', cost: 12000, icon: '📚', effect: 'Use it to build career skill.' },
+    { id: 'gas-cooker', name: 'Table-top gas cooker', cost: 22000, icon: '🍲', effect: 'Cook a simple meal at home.' },
+    { id: 'small-generator', name: 'Small generator', cost: 65000, icon: '🔌', effect: 'A long-term home comfort upgrade.' },
+  ];
+  function housingAction(action: 'rent' | 'upgrade' | 'buy' | 'use', itemId?: string) {
+    const owned: string[] = Array.isArray(worldState.furniture) ? worldState.furniture : [];
+    if (action === 'rent') {
+      const rent = Number(worldState.rent || 6000);
+      if (worldState.cash < rent) { setToast('You need ₦' + rent.toLocaleString() + ' to pay this week’s rent. Work a shift and try again.'); return; }
+      updateWorld({ cash: worldState.cash - rent, rentPaidDay: worldState.day, reputation: worldState.reputation + 1 }, 'Rent paid: ₦' + rent.toLocaleString() + '. Your home is secured for this game week.');
+      return;
+    }
+    if (action === 'upgrade') {
+      const next = HOME_OPTIONS[Math.min(HOME_OPTIONS.length - 1, Number(worldState.homeTier || 0) + 1)];
+      if (Number(worldState.homeTier || 0) >= HOME_OPTIONS.length - 1) { setToast('You already have the best home currently available.'); return; }
+      if (worldState.cash < next.deposit) { setToast('You need ₦' + next.deposit.toLocaleString() + ' for the next home’s deposit. Save up through work shifts.'); return; }
+      updateWorld({ cash: worldState.cash - next.deposit, home: next.name, homeTier: Number(worldState.homeTier || 0) + 1, rent: next.rent, rentPaidDay: 0, energy: Math.min(100, worldState.energy + 10), fun: Math.min(100, worldState.fun + 12) }, 'Welcome to your new home: ' + next.name + '. Deposit paid: ₦' + next.deposit.toLocaleString() + '.');
+      return;
+    }
+    if (action === 'buy') {
+      const item = FURNITURE_OPTIONS.find(entry => entry.id === itemId);
+      if (!item) return;
+      if (owned.includes(item.id)) { setToast('You already own ' + item.name + '.'); return; }
+      if (worldState.cash < item.cost) { setToast(item.name + ' costs ₦' + item.cost.toLocaleString() + '. Complete a shift and come back.'); return; }
+      updateWorld({ cash: worldState.cash - item.cost, furniture: [...owned, item.id], fun: Math.min(100, worldState.fun + 3) }, item.name + ' purchased and added to your home.');
+      return;
+    }
+    const item = FURNITURE_OPTIONS.find(entry => entry.id === itemId);
+    if (!item || !owned.includes(item.id)) return;
+    if (item.id === 'mattress') updateWorld({ energy: Math.min(100, worldState.energy + 20), fun: Math.min(100, worldState.fun + 8) }, 'You take a proper break on your mattress. Energy +20.');
+    else if (item.id === 'study-desk') updateWorld({ skill: Math.min(10, worldState.skill + 1), energy: Math.max(0, worldState.energy - 4) }, 'You work at your desk. Skill +1.');
+    else if (item.id === 'gas-cooker') {
+      if (worldState.cash < 180) { setToast('You need ₦180 for ingredients to cook a simple meal.'); return; }
+      updateWorld({ cash: worldState.cash - 180, hunger: Math.min(100, worldState.hunger + 28), energy: Math.min(100, worldState.energy + 5) }, 'You cook a simple home meal. Ingredients cost ₦180.');
+    } else if (item.id === 'standing-fan') updateWorld({ hygiene: Math.min(100, worldState.hygiene + 5), fun: Math.min(100, worldState.fun + 5) }, 'You cool down in front of the fan. Comfort improved.');
+    else updateWorld({ fun: Math.min(100, worldState.fun + 10), social: Math.min(100, worldState.social + 5) }, 'You spend a quiet evening at home. Comfort improved.');
   }
 
   function nigeriaLifeAction(action: 'akara' | 'water' | 'danfo' | 'noticeboard') {
@@ -3260,6 +3306,13 @@ function App() {
             </div>
           </div>
           <div className="life-sim-note"><span>DAY {worldState.day} · {String(worldState.hour).padStart(2,'0')}:00</span><span>{worldState.jobs} shifts completed</span><span>Skill level {worldState.skill}/10</span></div>
+        </section>
+        <section className="home-sim-panel" aria-label="Housing and furniture">
+          <div className="home-sim-heading"><div><div className="eyebrow">YOUR PLACE / HOME & COMFORT</div><h2>Make somewhere your own.</h2><p>Pay rent, work toward a better place and furnish your home with useful everyday essentials.</p></div><div className="home-address"><span>CURRENT HOME</span><strong>{worldState.home}</strong><small>₦{Number(worldState.rent || 6000).toLocaleString()} weekly rent</small></div></div>
+          <div className="home-sim-columns">
+            <div className="home-upgrade-card"><div className="home-card-eyebrow">NEXT STEP</div><h3>{HOME_OPTIONS[Math.min(HOME_OPTIONS.length - 1, Number(worldState.homeTier || 0) + 1)].name}</h3><p>{HOME_OPTIONS[Math.min(HOME_OPTIONS.length - 1, Number(worldState.homeTier || 0) + 1)].description}</p><div className="home-price">₦{HOME_OPTIONS[Math.min(HOME_OPTIONS.length - 1, Number(worldState.homeTier || 0) + 1)].deposit.toLocaleString()} <small>deposit</small></div><button className="home-action-primary" disabled={Number(worldState.homeTier || 0) >= HOME_OPTIONS.length - 1} onClick={() => housingAction('upgrade')}>{Number(worldState.homeTier || 0) >= HOME_OPTIONS.length - 1 ? 'Top home unlocked' : 'Upgrade home'} <ArrowRight size={14}/></button><button className="home-action-secondary" onClick={() => housingAction('rent')}>Pay this week’s rent · ₦{Number(worldState.rent || 6000).toLocaleString()}</button><small className="home-rent-status">{Number(worldState.rentPaidDay || 0) === worldState.day ? 'Rent paid today' : 'Rent not yet paid for today'}</small></div>
+            <div className="home-furniture-area"><div className="home-furniture-title"><div><div className="home-card-eyebrow">HOME SHOP</div><h3>Furniture & essentials</h3></div><span>{(worldState.furniture || []).length} owned</span></div><div className="home-furniture-grid">{FURNITURE_OPTIONS.map(item => { const isOwned = (worldState.furniture || []).includes(item.id); return <article className="home-furniture-item" key={item.id}><span className="home-furniture-icon">{item.icon}</span><div className="home-furniture-copy"><strong>{item.name}</strong><p>{item.effect}</p><small>{isOwned ? 'OWNED' : '₦' + item.cost.toLocaleString()}</small></div><button onClick={() => housingAction(isOwned ? 'use' : 'buy', item.id)}>{isOwned ? 'Use' : 'Buy'}</button></article>; })}</div></div>
+          </div>
         </section>
         <div className="world-layout">
           <section className="world-explore-panel">
