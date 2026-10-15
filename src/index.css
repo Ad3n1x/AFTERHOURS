@@ -3979,3 +3979,39 @@ textarea { min-height: 100px; resize: vertical; }
 .life-sim-note{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:18px;padding-top:13px;border-top:1px solid var(--line);font:10px var(--mono);letter-spacing:.05em;color:var(--muted)}
 @media(max-width:900px){.life-sim-controls{grid-template-columns:1fr}.life-sim-actions{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.life-sim-top{flex-direction:column}.life-sim-wallet{width:100%}.life-needs-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.life-need{padding:11px}.life-sim-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.life-sim-actions button{min-height:58px}.life-sim-note{font-size:9px}}
+
+
+/* Housing, rent and furniture progression */
+.home-sim-panel{margin:0 0 24px;padding:clamp(18px,2.5vw,28px);border:1px solid rgba(255,255,255,.11);border-radius:20px;background:linear-gradient(125deg,rgba(226,166,105,.08),transparent 50%),#111820}
+.home-sim-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:20px}
+.home-sim-heading h2{font-family:var(--serif);font-size:clamp(24px,3vw,35px);letter-spacing:-.03em;margin:7px 0}
+.home-sim-heading p{max-width:600px;color:var(--muted);font-size:13px;line-height:1.65;margin:0}
+.home-address{display:flex;flex-direction:column;gap:6px;padding:13px 16px;min-width:190px;border:1px solid var(--line);border-radius:13px;background:rgba(0,0,0,.18)}
+.home-address span,.home-card-eyebrow{font:10px var(--mono);letter-spacing:.12em;color:var(--muted)}
+.home-address strong{font-size:16px;color:var(--paper)}
+.home-address small{font-size:11px;color:var(--muted)}
+.home-sim-columns{display:grid;grid-template-columns:minmax(210px,.75fr) minmax(0,1.7fr);gap:18px}
+.home-upgrade-card{padding:18px;border-radius:15px;border:1px solid rgba(227,174,117,.2);background:rgba(227,174,117,.045);display:flex;flex-direction:column;align-items:flex-start}
+.home-upgrade-card h3,.home-furniture-title h3{font-size:18px;margin:8px 0}
+.home-upgrade-card p{color:var(--muted);font-size:12px;line-height:1.65;margin:0 0 18px}
+.home-price{font-size:22px;font-weight:700;margin:auto 0 14px}
+.home-price small{font-size:10px;font-weight:400;color:var(--muted)}
+.home-action-primary,.home-action-secondary{width:100%;min-height:40px;border-radius:9px;padding:9px 12px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.home-action-primary{background:var(--lime);color:#111820;border:1px solid var(--lime);font-weight:700}
+.home-action-primary:disabled{opacity:.55}
+.home-action-secondary{margin-top:8px;border:1px solid var(--line);background:transparent;color:var(--paper)}
+.home-rent-status{margin-top:9px;color:var(--muted);font-size:10px}
+.home-furniture-area{min-width:0}
+.home-furniture-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px}
+.home-furniture-title>span{font:10px var(--mono);color:var(--muted)}
+.home-furniture-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.home-furniture-item{min-width:0;display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.018)}
+.home-furniture-icon{font-size:23px}
+.home-furniture-copy{min-width:0}
+.home-furniture-copy strong{font-size:12px;display:block}
+.home-furniture-copy p{font-size:10px;line-height:1.45;color:var(--muted);margin:4px 0}
+.home-furniture-copy small{font:9px var(--mono);color:var(--lime)}
+.home-furniture-item button{border:1px solid var(--line);border-radius:8px;background:#1a242c;padding:7px 9px;font-size:10px}
+.home-furniture-item button:hover{border-color:var(--lime)}
+@media(max-width:850px){.home-sim-columns{grid-template-columns:1fr}.home-upgrade-card{min-height:0}.home-price{margin:8px 0 14px}}
+@media(max-width:560px){.home-sim-heading{flex-direction:column}.home-address{width:100%}.home-furniture-grid{grid-template-columns:1fr}.home-furniture-item{grid-template-columns:30px minmax(0,1fr) auto}}
