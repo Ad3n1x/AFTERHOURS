@@ -13,8 +13,8 @@ type Lot = {
 const PALETTE = ['#c38b5e','#c5b39b','#9f604e','#a8a080','#d1a56d','#778b79','#b98a77','#8c9ba1'];
 const LOTS: Lot[] = Array.from({ length: 49 }, (_, index) => {
   const col = index % 7, row = Math.floor(index / 7);
-  const x = (col - 3) * 14 + 7;
-  const z = (row - 3) * 14 + 7;
+  const x = (col - 3) * 14;
+  const z = (row - 3) * 14;
   const special = [
     { label: 'MAMA TITI PROVISIONS', kind: 'shop' as const, color: '#c38b5e' },
     { label: 'AKARA & PEPPER', kind: 'food' as const, color: '#b75c38' },
@@ -183,7 +183,7 @@ function Scene({ hour, interior, onEnter, onTalk, onActivity, onToast, onExitHom
   });
   useEffect(() => {
     if (interior && playerRef.current) playerRef.current.position.set(0,0,2.7);
-    if (!interior && playerRef.current) playerRef.current.position.set(0,0,2);
+    if (!interior && playerRef.current) playerRef.current.position.set(0,0,-7);
   }, [interior]);
   const dusk = hour >= 18 || hour < 6;
   const activity = (title: string, detail: string, action: string) => onActivity({ title, detail, action });
@@ -209,7 +209,7 @@ function Scene({ hour, interior, onEnter, onTalk, onActivity, onToast, onExitHom
       <Html position={[-8,1.7,4]} center distanceFactor={15}><button className="world3d-hotspot" onClick={() => activity('Community noticeboard','Job listings, room adverts and neighbourhood notices.','board')}>COMMUNITY BOARD</button></Html>
       <Html position={[8,1.5,-4]} center distanceFactor={15}><button className="world3d-hotspot" onClick={() => activity('Danfo bus stop','Local rides cost ₦300 in the game and advance the day.','transport')}>RIDE DANFO · ₦300</button></Html>
     </>}
-    <group ref={playerRef} position={[0,0,2]}><PlayerModel /></group>
+    <group ref={playerRef} position={[0,0,-7]}><PlayerModel /></group>
     <Html fullscreen>
       <div className="world3d-hud">
         <span className="world3d-live"><i /> {interior ? 'HOME INTERIOR' : 'OPEN WORLD / NIGERIA'}</span>
