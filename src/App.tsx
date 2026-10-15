@@ -1107,6 +1107,9 @@ function App() {
   const [selectedInvestigator, setSelectedInvestigator] = useState<string | null>(null);
   const [progress, setProgress] = useState(readProgress);
   const worldState = { ...WORLD_DEFAULT, ...(progress.world || {}) } as typeof WORLD_DEFAULT;
+  const [avatarPosition, setAvatarPosition] = useState({ x: 50, y: 70 });
+  const [avatarFacing, setAvatarFacing] = useState('front');
+  const [worldMoveCount, setWorldMoveCount] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [hintOpen, setHintOpen] = useState(false);
@@ -1172,6 +1175,27 @@ function App() {
     const timer = window.setTimeout(() => setToast(''), 2600);
     return () => window.clearTimeout(timer);
   }, [toast]);
+  useEffect(() => {
+    if (page !== 'world') return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName || '')) return;
+      const key = event.key.toLowerCase();
+      const directions: Record<string, { x: number; y: number; facing: string }> = {
+        arrowup: { x: 0, y: -3, facing: 'back' }, w: { x: 0, y: -3, facing: 'back' },
+        arrowdown: { x: 0, y: 3, facing: 'front' }, s: { x: 0, y: 3, facing: 'front' },
+        arrowleft: { x: -3, y: 0, facing: 'left' }, a: { x: -3, y: 0, facing: 'left' },
+        arrowright: { x: 3, y: 0, facing: 'right' }, d: { x: 3, y: 0, facing: 'right' },
+      };
+      const direction = directions[key];
+      if (!direction) return;
+      event.preventDefault();
+      setAvatarFacing(direction.facing);
+      setAvatarPosition(position => ({ x: Math.max(7, Math.min(93, position.x + direction.x)), y: Math.max(20, Math.min(86, position.y + direction.y)) }));
+      setWorldMoveCount(count => count + 1);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [page]);
 
   const solvedCount = Object.values(progress.solved).filter(
     (x: any) => x?.correct
@@ -1216,6 +1240,29 @@ function App() {
     setProgress((p: any) => ({ ...p, world: { ...WORLD_DEFAULT, ...(p.world || {}), ...patch } }));
     if (message) setToast(message);
   }
+  function walkAvatar(dx: number, dy: number) {
+    setAvatarFacing(dy < 0 ? 'back' : dy > 0 ? 'front' : dx < 0 ? 'left' : 'right');
+    setAvatarPosition(position => ({ x: Math.max(7, Math.min(93, position.x + dx)), y: Math.max(20, Math.min(86, position.y + dy)) }));
+    setWorldMoveCount(count => count + 1);
+  }
+  function interactWithStreet() {
+    const props = [
+      { name: 'provision store', x: 24, y: 43, lead: 'A shopkeeper says the handwritten delivery ledger is kept behind the counter.' },
+      { name: 'Danfo stop', x: 67, y: 65, lead: 'A Danfo conductor remembers a route change but asks you to verify the time against the dispatch record.' },
+      { name: 'suya stand', x: 78, y: 41, lead: 'The suya seller recalls a busy handover near closing time; the exact minute still needs confirmation.' },
+      { name: 'community noticeboard', x: 43, y: 30, lead: 'A noticeboard has an old schedule beside a newer handwritten update. Check the original issue date.' },
+    ];
+    const nearest = props.map(prop => ({ ...prop, distance: Math.hypot(avatarPosition.x - prop.x, avatarPosition.y - prop.y) })).sort((a, b) => a.distance - b.distance)[0];
+    if (!nearest || nearest.distance > 17) {
+      setToast('Move closer to the provision store, Danfo stop, suya stand or noticeboard to inspect it.');
+      return;
+    }
+    const leads: string[] = Array.isArray(worldState.leads) ? worldState.leads : [];
+    const key = worldState.region + ' · Street encounter · ' + nearest.name;
+    if (leads.includes(key)) { setToast('You already recorded this street lead. Check your notebook.'); return; }
+    updateWorld({ leads: [...leads, key], reputation: worldState.reputation + 1, hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Street lead added: ' + nearest.name + '. ' + nearest.lead);
+  }
+
   function travelToPlace(place: WorldPlace) {
     if (place.name === worldState.location) return;
     const visited = Array.isArray(worldState.visited) ? worldState.visited : [];
@@ -3102,6 +3149,36 @@ function App() {
               <div><div className="eyebrow"><span className="city-live-dot" /> LIVE FIELD MAP / FICTIONAL CITY</div><h2>{currentWorldRegion.name}</h2><p>{currentWorldRegion.vibe}</p></div>
               <span className="world-weather">☁ 27° <small>{worldState.hour < 12 ? 'Morning routes' : worldState.hour < 17 ? 'Afternoon heat' : worldState.hour < 21 ? 'Evening rush' : 'Night shift'}</small></span>
             </div>
+            <section className="world-street-scene" aria-label="Playable Nigerian street scene">
+              <div className="world-scene-topline"><span><i /> STREET VIEW / {currentWorldRegion.name.toUpperCase()}</span><span>GOLDEN HOUR · LOCAL LIFE</span></div>
+              <div className="world-scene-stage" role="application" aria-label="Use W A S D or arrow keys to walk around the street">
+                <div className="scene-sky"><span className="scene-sun" /><span className="scene-cloud scene-cloud-one" /><span className="scene-cloud scene-cloud-two" /></div>
+                <div className="scene-horizon-buildings"><i /><i /><i /><i /><i /><i /></div>
+                <div className="scene-power-wire scene-wire-one" /><div className="scene-power-wire scene-wire-two" />
+                <div className="scene-power-pole scene-pole-one"><i /><b /><em /></div><div className="scene-power-pole scene-pole-two"><i /><b /><em /></div>
+                <button className="scene-prop scene-shop" style={{left:'24%',top:'43%'}} onClick={() => setAvatarPosition({x:24,y:53})} aria-label="Walk to provision store"><span className="scene-shop-roof" /><span className="scene-shop-front"><b>PROVISIONS</b><small>cold malt · snacks</small></span><span className="scene-shop-crates">▦ ▦</span><em>SHOP</em></button>
+                <button className="scene-prop scene-danfo" style={{left:'67%',top:'65%'}} onClick={() => setAvatarPosition({x:67,y:75})} aria-label="Walk to Danfo stop"><span className="scene-danfo-body"><b>DANFO</b><i /><i /><small>LAGOS ROUTE</small></span><span className="scene-wheel wheel-one" /><span className="scene-wheel wheel-two" /><em>BUS STOP</em></button>
+                <button className="scene-prop scene-suya" style={{left:'78%',top:'41%'}} onClick={() => setAvatarPosition({x:78,y:51})} aria-label="Walk to suya stand"><span className="scene-suya-roof" /><span className="scene-grill"><i /><i /><i /><b>♨</b></span><span className="scene-suya-counter">SUYA · ₦</span><em>SUYA STAND</em></button>
+                <button className="scene-prop scene-board" style={{left:'43%',top:'30%'}} onClick={() => setAvatarPosition({x:43,y:40})} aria-label="Walk to community noticeboard"><span>COMMUNITY<br />NOTICEBOARD</span><small>ROUTES · NOTICES</small><em>NOTICEBOARD</em></button>
+                <div className="scene-road"><span className="scene-road-markings" /><span className="scene-road-edge" /></div>
+                <div className="scene-market-bag bag-one">GH</div><div className="scene-market-bag bag-two">GH</div>
+                <div className="scene-ankara-stack"><i /><i /><i /></div>
+                <div className={'scene-player scene-player-' + avatarFacing} style={{left: avatarPosition.x + '%', top: avatarPosition.y + '%'}} aria-label="Your player character"><span className="scene-player-shadow" /><span className="scene-player-head" /><span className="scene-player-body"><i /><b /></span><span className="scene-player-legs"><i /><b /></span><small>YOU</small></div>
+                <div className="scene-location-tag"><span className="city-live-dot" /> {worldState.location}</div>
+                <div className="scene-weather-tag">☀ 27° · {worldState.hour < 12 ? 'MORNING' : worldState.hour < 17 ? 'AFTERNOON' : worldState.hour < 21 ? 'GOLDEN HOUR' : 'NIGHT MARKET'}</div>
+                <div className="scene-instruction">WASD / ARROWS TO WALK · MOVE CLOSE TO A PROP, THEN INTERACT</div>
+              </div>
+              <div className="world-scene-controls">
+                <div className="scene-dpad" aria-label="Movement controls">
+                  <button onClick={() => walkAvatar(0,-4)} aria-label="Walk north">↑</button>
+                  <button onClick={() => walkAvatar(-4,0)} aria-label="Walk west">←</button>
+                  <button onClick={() => walkAvatar(0,4)} aria-label="Walk south">↓</button>
+                  <button onClick={() => walkAvatar(4,0)} aria-label="Walk east">→</button>
+                </div>
+                <p><strong>Free movement enabled</strong><span>Tap the street props to walk near them, or use your keyboard.</span></p>
+                <button className="scene-interact-button" onClick={interactWithStreet}><Fingerprint size={15} /> Interact nearby <ArrowRight size={15} /></button>
+              </div>
+            </section>
             <div className="world-map" aria-label={'Interactive map of ' + currentWorldRegion.name}>
               <div className="world-map-grid" />
               <div className="world-road world-road-one" /><div className="world-road world-road-two" /><div className="world-road world-road-three" />
