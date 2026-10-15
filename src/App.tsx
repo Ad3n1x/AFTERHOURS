@@ -750,21 +750,48 @@ function interviewForCase(c: CaseFile): InterviewExchange[] {
   ];
 }
 
-function lagosFieldLens(c: CaseFile) {
-  const context = (c.title + ' ' + c.subtitle + ' ' + c.intro + ' ' + c.tags.join(' ')).toLowerCase();
-  if (/campus|lecture|course|hostel|group chat|class rep/.test(context)) {
-    return { area: 'YABA / AKOKA LENS', rhythm: 'Campus timetable, hostel reception, class-group messages and people moving between lectures.', checks: 'Verify the original message, room-change notice, timestamp and who had direct access.' };
+function nigeriaFieldLens(c: CaseFile) {
+  const context = (c.title + ' ' + c.subtitle + ' ' + c.intro + ' ' + c.tags.join(' ') + ' ' + c.evidence.map((e) => e.title + ' ' + e.body).join(' ')).toLowerCase();
+  if (/ibadan|oyo state|bodija|dugbe|challenge|mokola/.test(context)) {
+    return { area: 'IBADAN / SOUTHWEST LENS', rhythm: 'Neighbourhood businesses, campus routines, family networks, market runs and trips planned around changing traffic.', checks: 'Confirm which branch, gate, stop or meeting point the witness means; local familiarity does not prove a timeline.' };
   }
-  if (/market|stall|ledger|receipt|cash|transfer|shop/.test(context)) {
-    return { area: 'BALOGUN / IDUMOTA LENS', rhythm: 'Busy trading hours, handwritten records, payment alerts, delivery hand-offs and several people handling one transaction.', checks: 'Separate payment initiated, payment confirmed, goods dispatched and goods received.' };
+  if (/abuja|fct|wuse|garki|utako|minister|agency|official letter/.test(context)) {
+    return { area: 'ABUJA / INSTITUTIONS LENS', rhythm: 'Appointments, office access, visitor registers, formal correspondence and people moving between districts.', checks: 'Verify the issuing office, document version, access log and exact appointment window.' };
   }
-  if (/parcel|delivery|dispatch|logistics|port|package|tracking/.test(context)) {
-    return { area: 'OSHODI / APAPA LENS', rhythm: 'Route changes, loading points, rider calls, traffic delays and a tracking status that may not tell the whole story.', checks: 'Build a timeline from independent timestamps, call records, hand-off notes and the actual destination.' };
+  if (/kano|kofar|sabongari|kano state|northwest/.test(context)) {
+    return { area: 'KANO / TRADE & ROUTE LENS', rhythm: 'Trading networks, hand-offs, market hours and records that may pass through several people.', checks: 'Trace each hand-off separately and confirm the date, unit, amount and person who actually received it.' };
   }
-  if (/night|club|late|security|ride|lekki|island/.test(context)) {
-    return { area: 'ISLAND / AFTER-DARK LENS', rhythm: 'Shift changes, venue entry logs, ride receipts, security desks and conflicting recollections after a long night.', checks: 'Confirm the route, time window and independent records before treating an alibi as settled.' };
+  if (/enugu|nsukka|coal camp|south east/.test(context)) {
+    return { area: 'ENUGU / CAMPUS & COMMUNITY LENS', rhythm: 'Student schedules, neighbourhood ties, small businesses and travel between town and campus.', checks: 'Check the original post or notice, who had direct access, and whether the timestamp fits the route.' };
   }
-  return { area: 'LAGOS MAINLAND / FIELD LENS', rhythm: 'Commutes, neighbourhood businesses, family and work routines, phone records and witnesses who each saw only one part.', checks: 'Cross-check accounts against records created independently; a familiar location is context, not proof.' };
+  if (/port harcourt|rivers state|ph city|bonny|oil|terminal|jetty/.test(context)) {
+    return { area: 'PORT HARCOURT / SOUTH-SOUTH LENS', rhythm: 'Work shifts, industrial and waterfront movement, dispatch records and location-specific access rules.', checks: 'Distinguish a planned departure from an actual gate entry, hand-off or arrival.' };
+  }
+  if (/jos|plateau|rayfield|bauchi road|north central/.test(context)) {
+    return { area: 'JOS / NORTH-CENTRAL LENS', rhythm: 'Weather and road conditions, community routines, campus schedules and journeys with more than one leg.', checks: 'Use dated independent records to test travel estimates; never turn a regional assumption into evidence.' };
+  }
+  if (/benin city|edo state|ring road|uniben|south-south/.test(context)) {
+    return { area: 'BENIN CITY / EDO LENS', rhythm: 'Campus life, shops, family connections, transport links and messages passed between social circles.', checks: 'Verify the original source, not a forwarded screenshot, and separate what a witness saw from what they heard.' };
+  }
+  if (/lagos|yaba|akoka|balogun|idumota|oshodi|apapa|lekki|victoria island|mainland/.test(context)) {
+    if (/campus|lecture|course|hostel|group chat|class rep|yaba|akoka/.test(context)) return { area: 'LAGOS / YABA & AKOKA LENS', rhythm: 'Campus timetables, hostel reception, class-group messages and people moving between lectures.', checks: 'Verify the original message, room-change notice, timestamp and who had direct access.' };
+    if (/market|stall|ledger|receipt|cash|transfer|shop|balogun|idumota/.test(context)) return { area: 'LAGOS / MARKET & MONEY LENS', rhythm: 'Busy trading hours, handwritten records, payment alerts and several people handling one transaction.', checks: 'Separate payment initiated, payment confirmed, goods dispatched and goods received.' };
+    if (/parcel|delivery|dispatch|logistics|port|package|tracking|oshodi|apapa/.test(context)) return { area: 'LAGOS / ROUTE & LOGISTICS LENS', rhythm: 'Route changes, loading points, rider calls, traffic delays and tracking statuses that may not tell the whole story.', checks: 'Build a timeline from independent timestamps, call records, hand-off notes and the actual destination.' };
+    return { area: 'LAGOS / NEIGHBOURHOOD LENS', rhythm: 'Commutes, neighbourhood businesses, work and family routines, phone records and witnesses who each saw one part.', checks: 'Cross-check accounts against independent records; a familiar location is context, not proof.' };
+  }
+  if (/market|stall|ledger|receipt|cash|transfer|shop|payment|invoice/.test(context)) {
+    return { area: 'NIGERIA / MARKET & MONEY LENS', rhythm: 'Cash and transfers can coexist; a screenshot, debit alert, seller confirmation and delivery are different events.', checks: 'Confirm amount, date, recipient and transaction status from the original record before deciding what happened.' };
+  }
+  if (/parcel|delivery|dispatch|logistics|port|package|tracking|bus|route|travel|ride/.test(context)) {
+    return { area: 'NIGERIA / MOVEMENT & HAND-OFF LENS', rhythm: 'Traffic, transfers between vehicles, dispatch calls and missed connections can complicate a simple timeline.', checks: 'Record each departure, hand-off and arrival separately; a tracking status is not the same as proof of receipt.' };
+  }
+  if (/campus|lecture|course|hostel|group chat|class rep|student|school/.test(context)) {
+    return { area: 'NIGERIA / CAMPUS & COMPOUND LENS', rhythm: 'Timetables, room changes, hostel desks, class groups and word-of-mouth can create conflicting versions of the same event.', checks: 'Return to the original notice or message, check timestamps and separate first-hand observation from hearsay.' };
+  }
+  if (/night|security|ride|shift|power|electricity|generator|network|data|cctv/.test(context)) {
+    return { area: 'NIGERIA / EVERYDAY INFRASTRUCTURE LENS', rhythm: 'Power cuts, weak signal, device battery, shift changes and transport availability can affect which records exist.', checks: 'Treat missing footage or delayed messages as an unanswered question—not automatic proof of guilt or innocence.' };
+  }
+  return { area: 'NIGERIA / EVERYDAY SYSTEMS LENS', rhythm: 'Work, family, transport, campus, payments, phone access and community routines all shape what a witness could realistically know.', checks: 'Build a dated timeline, check the original source, and keep facts, assumptions and open questions separate.' };
 }
 
 const episodes = [
@@ -1252,46 +1279,78 @@ function App() {
         'DISPATCH / 001',
         'Read the evidence. Catch the detail. Make your case.'
       )}
-      <section className="lagos-world" aria-label="Lagos city life and field intelligence">
+      <section className="lagos-world nigeria-world" aria-label="Nigeria regional world and everyday-life field intelligence">
         <div className="lagos-world-heading">
           <div>
-            <div className="eyebrow"><span className="city-live-dot" /> CITY SYSTEM / LAGOS STATE</div>
-            <h2>The city is part of the case.</h2>
-            <p>From the first danfo horn to the last buka closing, every neighbourhood has its own rhythm, witnesses, pressure points and paper trail.</p>
+            <div className="eyebrow"><span className="city-live-dot" /> NATIONAL FIELD NETWORK / NIGERIA</div>
+            <h2>One country. Many ways a story travels.</h2>
+            <p>AFTERHOURS follows everyday life across different Nigerian settings—from campus corridors and neighbourhood shops to offices, markets, transit routes and night shifts. Place shapes the questions; evidence still decides the answer.</p>
           </div>
-          <span className="lagos-world-stamp">FIELD<br />GUIDE 01</span>
+          <span className="lagos-world-stamp">FIELD<br />GUIDE 02</span>
         </div>
-        <div className="lagos-life-strip" aria-label="Lagos everyday life">
-          <span><b>01</b> ROAD & ROUTE</span>
-          <span><b>02</b> MARKET & MONEY</span>
-          <span><b>03</b> CAMPUS & COMPOUND</span>
-          <span><b>04</b> NIGHT SHIFT</span>
+        <div className="lagos-life-strip" aria-label="Everyday systems that can shape a case">
+          <span><b>01</b> MOVEMENT & ROUTES</span>
+          <span><b>02</b> CASH & TRANSFERS</span>
+          <span><b>03</b> POWER & NETWORK</span>
+          <span><b>04</b> WORK, CAMPUS & FAMILY</span>
         </div>
-        <div className="lagos-district-grid">
-          <button className="lagos-district" onClick={() => { setSearch('campus'); go('campus'); }}>
-            <span className="district-index">MAINLAND / 01</span><strong>Yaba & Akoka</strong>
-            <span>Campus gossip, tech offices, bus stops, class reps and messages moving faster than the people who sent them.</span>
-            <i>Follow campus leads <ArrowUpRight size={14} /></i>
+        <div className="lagos-district-grid nigeria-region-grid">
+          <button className="lagos-district" onClick={() => { setSearch('Lagos Yaba campus market dispatch'); go('cases'); }}>
+            <span className="district-index">SOUTHWEST / 01</span><strong>Lagos</strong>
+            <span>Yaba and Akoka campuses, Balogun and Idumota trading, Oshodi and Apapa routes, Mainland routines and Island night shifts.</span>
+            <i>Explore Lagos leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('market'); go('cases'); }}>
-            <span className="district-index">MARKET GRID / 02</span><strong>Balogun & Idumota</strong>
-            <span>Receipts, cash transfers, shop ledgers, delivery riders, bargaining and the difference between “sent” and “received”.</span>
-            <i>Check the paper trail <ArrowUpRight size={14} /></i>
+          <button className="lagos-district" onClick={() => { setSearch('Ibadan Oyo State campus market neighbourhood'); go('cases'); }}>
+            <span className="district-index">SOUTHWEST / 02</span><strong>Ibadan & Oyo</strong>
+            <span>Campus life, neighbourhood businesses, market runs, family networks and trips shaped by local routes and timing.</span>
+            <i>Explore Southwest leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('logistics'); go('cases'); }}>
-            <span className="district-index">PORT & TRANSIT / 03</span><strong>Oshodi to Apapa</strong>
-            <span>Bus parks, loading bays, traffic delays, dispatch calls and timelines that do not survive a bad route estimate.</span>
-            <i>Trace the movement <ArrowUpRight size={14} /></i>
+          <button className="lagos-district" onClick={() => { setSearch('Abuja FCT office appointment official document'); go('cases'); }}>
+            <span className="district-index">NORTH-CENTRAL / 03</span><strong>Abuja & the FCT</strong>
+            <span>Appointments, office access, visitor records, formal correspondence and people moving between districts.</span>
+            <i>Explore FCT leads <ArrowUpRight size={14} /></i>
           </button>
-          <button className="lagos-district" onClick={() => { setSearch('night'); go('streetcraft'); }}>
-            <span className="district-index">AFTER DARK / 04</span><strong>Lekki & Victoria Island</strong>
-            <span>Late shifts, lounges, security desks, ride receipts and people whose public story changes after closing time.</span>
-            <i>Work the night shift <ArrowUpRight size={14} /></i>
+          <button className="lagos-district" onClick={() => { setSearch('Kano market trade route receipt'); go('cases'); }}>
+            <span className="district-index">NORTHWEST / 04</span><strong>Kano</strong>
+            <span>Trade, market hours, multiple hand-offs and the details that matter when a transaction passes through many hands.</span>
+            <i>Explore trade leads <ArrowUpRight size={14} /></i>
           </button>
+          <button className="lagos-district" onClick={() => { setSearch('Enugu Nsukka campus student community'); go('cases'); }}>
+            <span className="district-index">SOUTHEAST / 05</span><strong>Enugu & Nsukka</strong>
+            <span>Student schedules, community ties, small businesses and journeys between campus and town.</span>
+            <i>Explore campus leads <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('Port Harcourt Rivers State logistics shift terminal'); go('cases'); }}>
+            <span className="district-index">SOUTH-SOUTH / 06</span><strong>Port Harcourt</strong>
+            <span>Shift schedules, logistics, access rules, work records and waterfront or industrial movement.</span>
+            <i>Explore logistics leads <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('Jos Plateau weather road campus'); go('cases'); }}>
+            <span className="district-index">NORTH-CENTRAL / 07</span><strong>Jos & Plateau</strong>
+            <span>Weather, road conditions, campus routines and multi-leg journeys where estimates need checking.</span>
+            <i>Explore route leads <ArrowUpRight size={14} /></i>
+          </button>
+          <button className="lagos-district" onClick={() => { setSearch('Benin City Edo State UNIBEN campus shop'); go('cases'); }}>
+            <span className="district-index">SOUTH-SOUTH / 08</span><strong>Benin City</strong>
+            <span>Campus life, shops, family connections, transport links and messages moving between social circles.</span>
+            <i>Explore community leads <ArrowUpRight size={14} /></i>
+          </button>
+        </div>
+        <div className="nigeria-systems">
+          <div className="nigeria-systems-heading">
+            <div className="eyebrow">FIELD CONDITIONS / REAL-LIFE CONTEXT</div>
+            <h3>Everyday details can change the timeline.</h3>
+          </div>
+          <div className="nigeria-systems-grid">
+            <div><span className="system-mark">↗</span><strong>Transport & timing</strong><p>Traffic, transfers, waiting time and route changes can test an alibi. Check each leg separately.</p></div>
+            <div><span className="system-mark">₦</span><strong>Payments & paper trails</strong><p>A screenshot, debit alert, recipient confirmation and goods received are not the same thing.</p></div>
+            <div><span className="system-mark">ϟ</span><strong>Power, devices & data</strong><p>Outages, low battery and weak signal may explain missing records—but never prove a story by themselves.</p></div>
+            <div><span className="system-mark">◎</span><strong>People & obligations</strong><p>Work shifts, campus schedules, family duties and community ties shape who could be where and when.</p></div>
+          </div>
         </div>
         <div className="lagos-world-foot">
-          <span><span className="city-live-dot" /> LOCAL LIFE IS EVIDENCE</span>
-          <span>Traffic • Power • Weather • Work • Family • Community</span>
+          <span><span className="city-live-dot" /> LOCAL CONTEXT IS A LEAD, NOT PROOF</span>
+          <span>Regional identity • Everyday pressures • Independent verification • No stereotypes</span>
         </div>
       </section>
       <section className="hero-grid">
@@ -1607,13 +1666,13 @@ function App() {
           </div>
         </div>
       </div>
-      <section className="lagos-field-lens" aria-label="Lagos field context">
+      <section className="lagos-field-lens" aria-label="Nigerian everyday-life field context">
         <div className="field-lens-icon"><Fingerprint size={18} /></div>
         <div className="field-lens-copy">
-          <div className="eyebrow">LAGOS FIELD LENS / CONTEXT, NOT CONCLUSION</div>
-          <h3>{lagosFieldLens(activeCase).area}</h3>
-          <p>{lagosFieldLens(activeCase).rhythm}</p>
-          <div><strong>What to verify:</strong> {lagosFieldLens(activeCase).checks}</div>
+          <div className="eyebrow">NIGERIA FIELD LENS / CONTEXT, NOT CONCLUSION</div>
+          <h3>{nigeriaFieldLens(activeCase).area}</h3>
+          <p>{nigeriaFieldLens(activeCase).rhythm}</p>
+          <div><strong>What to verify:</strong> {nigeriaFieldLens(activeCase).checks}</div>
         </div>
         <span className="field-lens-stamp">ON<br />GROUND</span>
       </section>
@@ -2736,10 +2795,10 @@ function App() {
       <main className="main-content">
         <div className="topline">
           <span>
-            <span className="topline-dot" /> LAGOS FIELD NETWORK <span className="topline-sep">·</span> FICTIONAL CASEWORK
+            <span className="topline-dot" /> NIGERIA FIELD NETWORK <span className="topline-sep">·</span> FICTIONAL CASEWORK
           </span>
           <span>
-            LAGOS, NIGERIA <span className="topline-sep">·</span> MAINLAND ↔ ISLAND
+            NIGERIA <span className="topline-sep">·</span> MANY REGIONS · ONE EVIDENCE STANDARD
           </span>
         </div>
         <div className="page-body">
