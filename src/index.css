@@ -3944,3 +3944,10 @@ textarea { min-height: 100px; resize: vertical; }
 .lagos-life-footnote{display:flex;align-items:center;gap:7px;margin-top:12px;color:#84958b;font:8px/1.6 var(--mono);letter-spacing:.04em}
 .lagos-life-footnote span{color:var(--lime)}
 @media(max-width:650px){.lagos-life-panel{padding:12px}.lagos-life-heading{flex-direction:column}.lagos-life-weather{display:flex;align-items:center;gap:10px}.lagos-life-weather small{margin:0}.lagos-life-grid{grid-template-columns:minmax(0,1fr)}.lagos-life-card{grid-template-columns:34px minmax(0,1fr) auto;gap:8px;padding:9px}.lagos-life-icon{width:32px;height:32px;font-size:17px}.lagos-life-card button{padding:8px 7px}}
+
+/* Nationwide identity: regional life, not a Lagos-only game */
+.lagos-life-panel{background:linear-gradient(135deg,#172522,#171d20 70%,#211e18);border-color:#4a5a45}
+.lagos-life-heading .eyebrow{color:var(--lime)}
+.lagos-life-card{background:linear-gradient(145deg,#17211f,#1b211d)}
+.lagos-life-weather{max-width:220px}
+@media(max-width:650px){.lagos-life-weather{max-width:100%}}
