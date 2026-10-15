@@ -976,7 +976,39 @@ const WORLD_REGIONS: WorldRegion[] = [
     { name: 'Neighbourhood Café', kind: 'cafe', icon: '🍲', description: 'Food, water and a break before heading back out.', person: 'Ese', role: 'Café attendant', line: 'Keep a little cash for the ride home.' },
     { name: 'Garden Room', kind: 'home', icon: '🏠', description: 'Your home base for sleep and organising clues.', person: 'Aunty Ivie', role: 'Host', line: 'A clean timeline starts with the records, not the conclusion.' },
   ]},
-];
+  { name: 'Kaduna & Zaria', code: 'NW · 09', vibe: 'Northern city life, university routines, trading streets and long-distance connections.', fare: 2400, places: [
+    { name: 'Kawo Transit Park', kind: 'hub', icon: '🚏', description: 'A northern transport stop with intercity passengers and local errands.', person: 'Musa', role: 'Driver assistant', line: 'Confirm the destination and vehicle before loading your bag.' },
+    { name: 'Zaria Campus Gate', kind: 'campus', icon: '🎓', description: 'Students, campus notices, bookshops and hostel errands.', person: 'Hadiza', role: 'Student organiser', line: 'Use the dated departmental notice, not an old forwarded message.' },
+    { name: 'Central Trading Street', kind: 'market', icon: '🧺', description: 'Fabric, grains, household goods and supplier hand-offs.', person: 'Bala', role: 'Trader', line: 'Count each item as it changes hands and keep the receipt.' },
+    { name: 'Repair Yard', kind: 'work', icon: '🧰', description: 'Mechanics, electricians and small paid jobs.', person: 'Yakubu', role: 'Workshop technician', line: 'Record the fault reported and the work completed separately.' },
+    { name: 'Tea & Masa Corner', kind: 'cafe', icon: '🫖', description: 'Tea, masa and a breather between errands.', person: 'Aisha', role: 'Food seller', line: 'Plan the return trip before spending your last fare.' },
+    { name: 'Courtyard Room', kind: 'home', icon: '🏠', description: 'A quiet place to rest and sort field notes.', person: 'Mama Rabi', role: 'Host', line: 'Separate what you saw from what someone told you.' },
+  ]},
+  { name: 'Calabar & Cross River', code: 'SS · 10', vibe: 'Waterfront errands, food stalls, tourism work and neighbourhood connections.', fare: 2600, places: [
+    { name: 'Watt Market Junction', kind: 'hub', icon: '🚏', description: 'A lively junction connecting traders and commuters.', person: 'Etim', role: 'Route regular', line: 'Confirm the pickup point using a clear landmark.' },
+    { name: 'Marian Market', kind: 'market', icon: '🧺', description: 'Produce sellers, household shopping and order notes.', person: 'Ekaette', role: 'Market trader', line: 'Keep the original receipt; a photo can cut off the date.' },
+    { name: 'Campus Notice Walk', kind: 'campus', icon: '🎓', description: 'Student notices, club activity and campus errands.', person: 'Ini', role: 'Student volunteer', line: 'Check the official noticeboard when versions conflict.' },
+    { name: 'Waterfront Work Shed', kind: 'work', icon: '📦', description: 'Supply runs, delivery sheets and shift handovers.', person: 'Asuquo', role: 'Dispatch lead', line: 'A package leaving the shed is not proof it arrived.' },
+    { name: 'Buka & Food Corner', kind: 'cafe', icon: '🍲', description: 'Local meals and a place to rest before the next errand.', person: 'Mfon', role: 'Cook', line: 'Leave time for the journey home if the rain starts.' },
+    { name: 'Garden Guest Room', kind: 'home', icon: '🛏️', description: 'A simple base to rest and organise tomorrow.', person: 'Aunty Eno', role: 'Host', line: 'Write down details while the conversation is fresh.' },
+  ]},
+  { name: 'Abeokuta & Ogun', code: 'SW · 11', vibe: 'Rock-side neighbourhoods, workshops, school runs and busy intercity roads.', fare: 1200, places: [
+    { name: 'Kuto Motor Park', kind: 'hub', icon: '🚏', description: 'Intercity buses, commuters and pickup coordination.', person: 'Segun', role: 'Park coordinator', line: 'Confirm departure time with the driver; a timetable is only a plan.' },
+    { name: 'Lafenwa Market', kind: 'market', icon: '🧺', description: 'Market stalls, supplier calls and household shopping.', person: 'Bisola', role: 'Trader', line: 'Check quantities against the order before paying the balance.' },
+    { name: 'Campus Walkway', kind: 'campus', icon: '🎓', description: 'Lecture timetables, student groups and noticeboard updates.', person: 'Fiyin', role: 'Student volunteer', line: 'A forwarded announcement may be old; verify its date.' },
+    { name: 'Workshop Row', kind: 'work', icon: '🧰', description: 'Repairs, small manufacturing jobs and tool handovers.', person: 'Tunde', role: 'Artisan', line: 'Record what came in and what went back out.' },
+    { name: 'Amala Kitchen', kind: 'cafe', icon: '🍲', description: 'A local food stop to eat and plan the next trip.', person: 'Mama Sade', role: 'Food seller', line: 'Keep enough change for transport home.' },
+    { name: 'Rockview Room', kind: 'home', icon: '🏠', description: 'A modest place to recharge and organise notes.', person: 'Mr. Ade', role: 'Host', line: 'Rest, then check tomorrow’s route.' },
+  ]},
+  { name: 'Uyo & Akwa Ibom', code: 'SS · 12', vibe: 'Civic errands, small businesses, campus life and food spots around town.', fare: 2200, places: [
+    { name: 'Itam Transit Hub', kind: 'hub', icon: '🚏', description: 'A transport point for town journeys and intercity connections.', person: 'Aniefiok', role: 'Route guide', line: 'Make sure the bus serves the exact town or stop you need.' },
+    { name: 'Town Market Row', kind: 'market', icon: '🧺', description: 'Everyday shopping, produce, receipts and supplier relationships.', person: 'Uduak', role: 'Shop owner', line: 'Confirm the transfer in your account before releasing goods.' },
+    { name: 'Campus Square', kind: 'campus', icon: '🎓', description: 'Students, club notices, lecture changes and hostel errands.', person: 'Mma', role: 'Class representative', line: 'Check the original class notice instead of a screenshot.' },
+    { name: 'Civic Records Office', kind: 'office', icon: '🏢', description: 'Appointment slips, stamped documents and visitor registers.', person: 'Nsikan', role: 'Office assistant', line: 'Check what a document says, not just whether it has a stamp.' },
+    { name: 'Neighbourhood Food Spot', kind: 'cafe', icon: '🍲', description: 'A meal and a short break between errands.', person: 'Ima', role: 'Cook', line: 'Keep some energy and cash for the journey back.' },
+    { name: 'Town Guest Room', kind: 'home', icon: '🛏️', description: 'A calm base for rest and planning.', person: 'Aunty Uyai', role: 'Host', line: 'Keep observations, rumours and conclusions separate.' },
+  ]},
+ ];
 const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0 };
 
 type InterviewExchange = { question: string; response: string; lead: string };
@@ -1263,7 +1295,7 @@ function App() {
     updateWorld({ leads: [...leads, key], reputation: worldState.reputation + 1, hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Street lead added: ' + nearest.name + '. ' + nearest.lead);
   }
 
-  function lagosLifeAction(action: 'akara' | 'water' | 'danfo' | 'noticeboard') {
+  function nigeriaLifeAction(action: 'akara' | 'water' | 'danfo' | 'noticeboard') {
     const hourAdvance = (hours: number) => ({
       hour: (worldState.hour + hours) % 24,
       day: worldState.day + (worldState.hour + hours >= 24 ? 1 : 0),
@@ -3206,18 +3238,18 @@ function App() {
                 <button className="scene-interact-button" onClick={interactWithStreet}><Fingerprint size={15} /> Interact nearby <ArrowRight size={15} /></button>
               </div>
             </section>
-            <section className="lagos-life-panel" aria-label="Everyday Lagos life">
+            <section className="lagos-life-panel" aria-label="Everyday Nigerian life">
               <div className="lagos-life-heading">
-                <div><div className="eyebrow">CITY RHYTHM / EVERYDAY LIFE</div><h3>Life doesn't pause for a case.</h3><p>{worldState.hour < 6 ? 'The streets are quiet; a few food sellers and night workers are still moving.' : worldState.hour < 10 ? 'Morning rush: conductors are calling destinations, shops are opening and students are hurrying out.' : worldState.hour < 16 ? 'Midday heat: market errands, dispatch runs and roadside lunch breaks keep the neighbourhood moving.' : worldState.hour < 20 ? 'Evening rush: traffic thickens, generators start up and food stands get busy.' : 'After dark: kiosks glow, buses thin out and conversations move closer to the street lights.'}</p></div>
+                <div><div className="eyebrow">NIGERIA / CITY RHYTHM</div><h3>Life doesn't pause for a case.</h3><p>{worldState.hour < 6 ? 'Across the country, night workers, early traders and transport crews are already on the move.' : worldState.hour < 10 ? 'Morning rush: commuters fill bus stops, food sellers set up, shops open and students head out.' : worldState.hour < 16 ? 'Midday: markets, workshops, offices, campuses and roadside kitchens keep each neighbourhood moving.' : worldState.hour < 20 ? 'Evening rush: traffic builds, shops get busier and food stands prepare for the after-work crowd.' : 'After dark: street lights and generators glow, late-shift workers travel home and neighbourhood conversations continue.'}</p></div>
                 <span className="lagos-life-weather">{worldState.hour >= 18 || worldState.hour < 6 ? '◒ NIGHT LIGHTS' : '☀ HOT & HUMID'}<small>{worldState.hour >= 16 && worldState.hour < 20 ? 'RUSH-HOUR TRAFFIC' : worldState.hour >= 20 || worldState.hour < 6 ? 'LOWER STREET ACTIVITY' : 'BUSY ROADS'}</small></span>
               </div>
               <div className="lagos-life-grid">
-                <article className="lagos-life-card"><span className="lagos-life-icon">🛺</span><div><strong>Danfo stop</strong><p>Short neighbourhood ride · ₦300 · traffic may eat your time.</p></div><button onClick={() => lagosLifeAction('danfo')}>Ride <ArrowRight size={13}/></button></article>
-                <article className="lagos-life-card"><span className="lagos-life-icon">🍘</span><div><strong>Akara & pepper</strong><p>Roadside breakfast · ₦250 · restore 10 energy.</p></div><button onClick={() => lagosLifeAction('akara')}>Buy <ArrowRight size={13}/></button></article>
-                <article className="lagos-life-card"><span className="lagos-life-icon">💧</span><div><strong>Sachet water</strong><p>Cold water from a street hawker · ₦100 · restore 5 energy.</p></div><button onClick={() => lagosLifeAction('water')}>Buy <ArrowRight size={13}/></button></article>
-                <article className="lagos-life-card"><span className="lagos-life-icon">📌</span><div><strong>Community noticeboard</strong><p>Local adverts, outage notes and lost-item notices may hide a lead.</p></div><button onClick={() => lagosLifeAction('noticeboard')}>Inspect <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">🛺</span><div><strong>Danfo stop</strong><p>Short neighbourhood ride · ₦300 · traffic may eat your time.</p></div><button onClick={() => nigeriaLifeAction('danfo')}>Ride <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">🍘</span><div><strong>Akara & pepper</strong><p>Roadside breakfast · ₦250 · restore 10 energy.</p></div><button onClick={() => nigeriaLifeAction('akara')}>Buy <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">💧</span><div><strong>Sachet water</strong><p>Cold water from a street hawker · ₦100 · restore 5 energy.</p></div><button onClick={() => nigeriaLifeAction('water')}>Buy <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">📌</span><div><strong>Community noticeboard</strong><p>Local adverts, outage notes and lost-item notices may hide a lead.</p></div><button onClick={() => nigeriaLifeAction('noticeboard')}>Inspect <ArrowRight size={13}/></button></article>
               </div>
-              <div className="lagos-life-footnote"><span>●</span> STREET LIFE SIMULATION · Prices and events are fictional game mechanics, not live Lagos transport or market data.</div>
+              <div className="lagos-life-footnote"><span>●</span> NIGERIA LIFE SIMULATION · Prices and events are fictional game mechanics, not live transport or market data.</div>
             </section>
             <div className="world-map" aria-label={'Interactive map of ' + currentWorldRegion.name}>
               <div className="world-map-grid" />
