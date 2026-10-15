@@ -1009,7 +1009,7 @@ const WORLD_REGIONS: WorldRegion[] = [
     { name: 'Town Guest Room', kind: 'home', icon: '🛏️', description: 'A calm base for rest and planning.', person: 'Aunty Uyai', role: 'Host', line: 'Keep observations, rumours and conclusions separate.' },
   ]},
  ];
-const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0 };
+const WORLD_DEFAULT = { region: 'Lagos', location: 'Yaba Junction', hour: 8, day: 1, cash: 2500, energy: 82, reputation: 0, inventory: ['Phone', 'Field notebook'], visited: ['Lagos|Yaba Junction'], leads: [], jobs: 0, hunger: 78, fun: 62, social: 45, hygiene: 86, bladder: 18, skill: 0, career: 'Market Trader', home: 'Yaba Room', rent: 6000, lifeActions: 0 };
 
 type InterviewExchange = { question: string; response: string; lead: string };
 function interviewForCase(c: CaseFile): InterviewExchange[] {
@@ -1293,6 +1293,40 @@ function App() {
     const key = worldState.region + ' · Street encounter · ' + nearest.name;
     if (leads.includes(key)) { setToast('You already recorded this street lead. Check your notebook.'); return; }
     updateWorld({ leads: [...leads, key], reputation: worldState.reputation + 1, hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Street lead added: ' + nearest.name + '. ' + nearest.lead);
+  }
+
+  function lifeSimAction(action: 'work' | 'meal' | 'sleep' | 'wash' | 'social' | 'toilet' | 'study' | 'home') {
+    const hourAdvance = (hours: number) => ({
+      hour: (worldState.hour + hours) % 24,
+      day: worldState.day + Math.floor((worldState.hour + hours) / 24),
+    });
+    const decay = (hours: number) => ({
+      hunger: Math.max(0, worldState.hunger - hours * 3),
+      fun: Math.max(0, worldState.fun - hours * 1.5),
+      social: Math.max(0, worldState.social - hours * 0.8),
+      hygiene: Math.max(0, worldState.hygiene - hours * 1.2),
+      bladder: Math.min(100, worldState.bladder + hours * 4),
+    });
+    const advance = (hours: number, patch: Record<string, any>, message: string) =>
+      updateWorld({ ...decay(hours), ...hourAdvance(hours), lifeActions: worldState.lifeActions + 1, ...patch }, message);
+    if (action === 'work') {
+      if (worldState.energy < 20 || worldState.hunger < 15) { setToast('You need at least 20 energy and 15 hunger to complete a shift. Eat or rest first.'); return; }
+      const pay: Record<string, number> = { 'Market Trader': 4200, 'Okada Rider': 3500, 'Banker': 11600, 'Software Developer': 18500 };
+      const earned = pay[worldState.career] || 4200;
+      advance(4, { cash: worldState.cash + earned, energy: Math.max(0, worldState.energy - 22), skill: Math.min(10, worldState.skill + (worldState.jobs % 3 === 2 ? 1 : 0)), jobs: worldState.jobs + 1, reputation: worldState.reputation + 1 }, 'Shift completed as ' + worldState.career + '. You earned ₦' + earned.toLocaleString() + '.');
+      return;
+    }
+    if (action === 'meal') {
+      if (worldState.cash < 350) { setToast('You need ₦350 for a meal. Complete a shift or choose a cheaper activity.'); return; }
+      advance(1, { cash: worldState.cash - 350, hunger: Math.min(100, worldState.hunger + 35), energy: Math.min(100, worldState.energy + 8) }, 'You ate a proper meal for ₦350. Hunger and energy improved.');
+      return;
+    }
+    if (action === 'sleep') { advance(7, { energy: 100, fun: Math.min(100, worldState.fun + 8), bladder: Math.min(100, worldState.bladder + 22) }, 'You got some sleep. Energy restored; seven game hours passed.'); return; }
+    if (action === 'wash') { advance(1, { hygiene: 100, energy: Math.max(0, worldState.energy - 2) }, 'Freshened up. Hygiene restored.'); return; }
+    if (action === 'social') { advance(2, { social: Math.min(100, worldState.social + 35), fun: Math.min(100, worldState.fun + 12), reputation: worldState.reputation + 1 }, 'You spent time with people in the neighbourhood. Social and fun improved.'); return; }
+    if (action === 'toilet') { advance(0.25, { bladder: 0 }, 'Quick stop. Bladder need reset.'); return; }
+    if (action === 'study') { advance(2, { skill: Math.min(10, worldState.skill + 1), energy: Math.max(0, worldState.energy - 8), fun: Math.max(0, worldState.fun - 4) }, 'Study session complete. Career skill increased.'); return; }
+    advance(0, { home: 'Yaba Room', rent: 6000, energy: Math.min(100, worldState.energy + 5) }, 'You checked in at your Yaba room. Rent is ₦6,000 per game week.');
   }
 
   function nigeriaLifeAction(action: 'akara' | 'water' | 'danfo' | 'noticeboard') {
@@ -3202,6 +3236,31 @@ function App() {
           <div className="world-stat"><span>ENERGY</span><strong>{worldState.energy}%</strong><div className="world-energy-track"><i style={{width: worldState.energy + '%'}} /></div></div>
           <div className="world-stat"><span>REPUTATION</span><strong>{worldState.reputation}</strong><small>People you have helped</small></div>
         </div>
+        <section className="life-sim-panel" aria-label="Your everyday life simulation">
+          <div className="life-sim-top">
+            <div><div className="eyebrow">YOUR LIFE / NEEDS & ROUTINE</div><h2>Build a life, not just a case.</h2><p>Work, eat, rest, learn and keep your everyday needs in balance. Your story saves in this browser.</p></div>
+            <div className="life-sim-wallet"><span>AVAILABLE CASH</span><strong>₦{worldState.cash.toLocaleString()}</strong><small>{worldState.home} · rent ₦{Number(worldState.rent || 6000).toLocaleString()}/week</small></div>
+          </div>
+          <div className="life-needs-grid">
+            {([{key:'hunger',label:'Hunger',icon:'🍲'},{key:'energy',label:'Energy',icon:'⚡'},{key:'fun',label:'Fun',icon:'🎉'},{key:'social',label:'Social',icon:'💬'},{key:'hygiene',label:'Hygiene',icon:'🫧'},{key:'bladder',label:'Bladder',icon:'🚻'}] as const).map(need => {
+              const value = Math.max(0, Math.min(100, Number(worldState[need.key] || 0)));
+              return <div className="life-need" key={need.key}><div className="life-need-label"><span>{need.icon} {need.label}</span><strong>{Math.round(value)}%</strong></div><div className="life-need-track"><i className={value < 25 ? 'low' : ''} style={{width:value+'%'}} /></div></div>;
+            })}
+          </div>
+          <div className="life-sim-controls">
+            <label className="life-career-field"><span>CAREER</span><select value={worldState.career} onChange={event => updateWorld({career:event.target.value}, 'Career set to ' + event.target.value + '. Complete shifts to earn game money.')}><option>Market Trader</option><option>Okada Rider</option><option>Banker</option><option disabled={worldState.skill < 3}>Software Developer{worldState.skill < 3 ? ' · skill level 3 required' : ''}</option></select></label>
+            <div className="life-sim-actions">
+              <button onClick={() => lifeSimAction('work')}>💼 Work shift <small>Earn cash</small></button>
+              <button onClick={() => lifeSimAction('meal')}>🍛 Eat <small>₦350</small></button>
+              <button onClick={() => lifeSimAction('sleep')}>🛏️ Sleep <small>7 hours</small></button>
+              <button onClick={() => lifeSimAction('study')}>📚 Study <small>Build skill</small></button>
+              <button onClick={() => lifeSimAction('wash')}>🫧 Wash <small>Hygiene</small></button>
+              <button onClick={() => lifeSimAction('social')}>🧑🏾‍🤝‍🧑🏽 Socialise <small>2 hours</small></button>
+              <button onClick={() => lifeSimAction('toilet')}>🚻 Bathroom <small>Quick stop</small></button>
+            </div>
+          </div>
+          <div className="life-sim-note"><span>DAY {worldState.day} · {String(worldState.hour).padStart(2,'0')}:00</span><span>{worldState.jobs} shifts completed</span><span>Skill level {worldState.skill}/10</span></div>
+        </section>
         <div className="world-layout">
           <section className="world-explore-panel">
             <div className="world-panel-heading">
