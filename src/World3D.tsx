@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Html, Sky } from '@react-three/drei';
 import type { Group, Vector3 } from 'three';
@@ -225,10 +225,8 @@ export default function World3D({ region, location, hour, onInteract }: World3DP
   const [activity, setActivity] = useState<Activity | null>(null);
   const [toast, setToast] = useState('');
   const [npc, setNpc] = useState<typeof NPC_STARTS[number] | null>(null);
-  const [nearby, setNearby] = useState<Lot | null>(null);
   const [mapOpen, setMapOpen] = useState(false);
   const onEnter = useCallback((lot: Lot) => {
-    setNearby(lot);
     if (lot.kind === 'home') { setInterior(true); setToast('You entered a furnished starter home. Explore the room and use the hotspots.'); setActivity(null); }
     else if (lot.kind === 'shop') setActivity({ title: lot.label, detail: 'Browse everyday essentials and neighbourhood supplies.', action: 'shop' });
     else if (lot.kind === 'food') setActivity({ title: lot.label, detail: 'Fresh street food from the neighbourhood seller.', action: 'food' });
