@@ -1263,6 +1263,33 @@ function App() {
     updateWorld({ leads: [...leads, key], reputation: worldState.reputation + 1, hour: (worldState.hour + 1) % 24, day: worldState.day + (worldState.hour === 23 ? 1 : 0) }, 'Street lead added: ' + nearest.name + '. ' + nearest.lead);
   }
 
+  function lagosLifeAction(action: 'akara' | 'water' | 'danfo' | 'noticeboard') {
+    const hourAdvance = (hours: number) => ({
+      hour: (worldState.hour + hours) % 24,
+      day: worldState.day + (worldState.hour + hours >= 24 ? 1 : 0),
+    });
+    if (action === 'akara') {
+      if (worldState.cash < 250) { setToast('Akara and pepper cost ₦250 here. Pick up a shift if your pocket is empty.'); return; }
+      updateWorld({ cash: worldState.cash - 250, energy: Math.min(100, worldState.energy + 10), ...hourAdvance(0) }, 'You buy hot akara and pepper from the roadside seller. Pocket cash -₦250; energy +10.');
+      return;
+    }
+    if (action === 'water') {
+      if (worldState.cash < 100) { setToast('A sachet of water costs ₦100 in this neighbourhood.'); return; }
+      updateWorld({ cash: worldState.cash - 100, energy: Math.min(100, worldState.energy + 5) }, 'You buy cold sachet water from the street hawker. Pocket cash -₦100; energy +5.');
+      return;
+    }
+    if (action === 'danfo') {
+      if (worldState.cash < 300) { setToast('You need ₦300 for this short danfo ride. Take a shift or walk instead.'); return; }
+      updateWorld({ cash: worldState.cash - 300, energy: Math.max(0, worldState.energy - 3), ...hourAdvance(1) }, 'You squeeze into a yellow danfo. The conductor calls the next stop; the ride costs ₦300 and one hour passes in traffic.');
+      setAvatarPosition({ x: 67, y: 75 });
+      return;
+    }
+    const leads: string[] = Array.isArray(worldState.leads) ? worldState.leads : [];
+    const lead = worldState.region + ' · Street noticeboard · Community update';
+    if (leads.includes(lead)) { setToast('You already copied the community notice into your field notebook.'); return; }
+    updateWorld({ leads: [...leads, lead], reputation: worldState.reputation + 1, ...hourAdvance(0) }, 'You check the faded noticeboard: a power-outage update, a lost-key notice and a handwritten dispatch advert. A useful lead goes into your notebook.');
+  }
+
   function travelToPlace(place: WorldPlace) {
     if (place.name === worldState.location) return;
     const visited = Array.isArray(worldState.visited) ? worldState.visited : [];
@@ -3178,6 +3205,19 @@ function App() {
                 <p><strong>Free movement enabled</strong><span>Tap the street props to walk near them, or use your keyboard.</span></p>
                 <button className="scene-interact-button" onClick={interactWithStreet}><Fingerprint size={15} /> Interact nearby <ArrowRight size={15} /></button>
               </div>
+            </section>
+            <section className="lagos-life-panel" aria-label="Everyday Lagos life">
+              <div className="lagos-life-heading">
+                <div><div className="eyebrow">CITY RHYTHM / EVERYDAY LIFE</div><h3>Life doesn't pause for a case.</h3><p>{worldState.hour < 6 ? 'The streets are quiet; a few food sellers and night workers are still moving.' : worldState.hour < 10 ? 'Morning rush: conductors are calling destinations, shops are opening and students are hurrying out.' : worldState.hour < 16 ? 'Midday heat: market errands, dispatch runs and roadside lunch breaks keep the neighbourhood moving.' : worldState.hour < 20 ? 'Evening rush: traffic thickens, generators start up and food stands get busy.' : 'After dark: kiosks glow, buses thin out and conversations move closer to the street lights.'}</p></div>
+                <span className="lagos-life-weather">{worldState.hour >= 18 || worldState.hour < 6 ? '◒ NIGHT LIGHTS' : '☀ HOT & HUMID'}<small>{worldState.hour >= 16 && worldState.hour < 20 ? 'RUSH-HOUR TRAFFIC' : worldState.hour >= 20 || worldState.hour < 6 ? 'LOWER STREET ACTIVITY' : 'BUSY ROADS'}</small></span>
+              </div>
+              <div className="lagos-life-grid">
+                <article className="lagos-life-card"><span className="lagos-life-icon">🛺</span><div><strong>Danfo stop</strong><p>Short neighbourhood ride · ₦300 · traffic may eat your time.</p></div><button onClick={() => lagosLifeAction('danfo')}>Ride <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">🍘</span><div><strong>Akara & pepper</strong><p>Roadside breakfast · ₦250 · restore 10 energy.</p></div><button onClick={() => lagosLifeAction('akara')}>Buy <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">💧</span><div><strong>Sachet water</strong><p>Cold water from a street hawker · ₦100 · restore 5 energy.</p></div><button onClick={() => lagosLifeAction('water')}>Buy <ArrowRight size={13}/></button></article>
+                <article className="lagos-life-card"><span className="lagos-life-icon">📌</span><div><strong>Community noticeboard</strong><p>Local adverts, outage notes and lost-item notices may hide a lead.</p></div><button onClick={() => lagosLifeAction('noticeboard')}>Inspect <ArrowRight size={13}/></button></article>
+              </div>
+              <div className="lagos-life-footnote"><span>●</span> STREET LIFE SIMULATION · Prices and events are fictional game mechanics, not live Lagos transport or market data.</div>
             </section>
             <div className="world-map" aria-label={'Interactive map of ' + currentWorldRegion.name}>
               <div className="world-map-grid" />
