@@ -1,54 +1,34 @@
-# AFTERHOURS 🇳🇬
+# AFTERHOURS
 
-**A browser-first Nigerian 3D open-world life simulator.**
+**A quiet personal operating system for clearer thinking, focused work, and keeping your best ideas.**
 
-AFTERHOURS is being rebuilt around an explorable Nigerian neighbourhood and the everyday choices that shape a life: getting around, meeting residents, finding work, earning naira, looking after yourself, and making a home.
+This replaces the previous 3D life-simulator direction with a calm command centre for attention and ideas.
 
-## Playable foundation
+## Features
+- **Operations:** daily mission board and progress tracking.
+- **Thought Vault:** capture, tag, search, and delete thoughts.
+- **Signal / Noise:** separate facts, assumptions, options, and next moves.
+- **Explore:** rotating discoveries across science, psychology, history, and systems.
+- **Focus:** 25-minute timer.
+- **Progress:** review saved thoughts, completed missions, and focus time.
+- **Local-first:** workspace data is stored in the browser; no account or AI key required.
+- Responsive on phones and desktops.
 
-- **3D neighbourhood:** a walkable grid of streets and blocks with homes, shops, food spots, a workshop, community locations, trees, residents and danfo buses.
-- **Third-person exploration:** keyboard controls on desktop and a touch movement pad on mobile.
-- **Enterable starter home:** explore the room, rest, inspect storage and return to the street.
-- **Life-simulation loop:** manage cash, energy, hunger and hygiene; buy a meal; take a paid shift; use local transport; advance in-game time.
-- **Nigerian setting:** naira-based economy, danfo transport, neighbourhood vendors and local street-life details.
-- **Local save:** game progress is saved in the current browser when local storage is available.
-- **Responsive interface:** designed for desktop browsers and mobile screens, with conservative rendering settings for lower-powered devices.
+## Stack
+React 19, TypeScript, Vite, Lucide icons, Express API.
+Vercel hosts the frontend; Render hosts the lightweight API.
 
-## Tech stack
-
-- React 19 + TypeScript
-- Vite 6
-- Three.js
-- React Three Fiber + Drei
-- Lucide icons
-
-## Run locally
-
+## Local development
 ```bash
 npm install
 npm run dev
-```
-
-Create a production build:
-
-```bash
 npm run build
-npm run preview
+npm run server
 ```
 
-## Controls
+## API
+- `GET /` service overview
+- `GET /api/health` health check
+- `GET /api/discoveries` discovery cards
 
-- **Desktop:** WASD or arrow keys to move; click buildings and residents to interact.
-- **Mobile:** hold the on-screen directional pad to move; tap buildings and residents.
-- **City map:** use the map toggle beneath the 3D scene.
-
-## Current scope
-
-This is an actively evolving browser game prototype. Multiplayer, online accounts, cloud saves, a full-size Nigeria map, and advanced vehicle systems are not yet enabled. The current priority is making the offline open-world loop fun and stable before expanding the world.
-
-## Performance
-
-The 3D scene uses a capped device-pixel ratio and low-power WebGL preference to help support modest hardware. Further optimisation should be based on real production testing across target desktop and Android devices.
-
----
-Made by **AD3N1X** · AFTERHOURS
+Thoughts, mission state, and decision notes stay in localStorage and are not uploaded to the API. Clearing browser site data or switching devices will not carry the workspace over.
